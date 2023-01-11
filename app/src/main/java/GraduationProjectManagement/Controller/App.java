@@ -3,15 +3,15 @@
  */
 package GraduationProjectManagement.Controller;
 
-import java.sql.Connection;
-
 public class App {
-    public String getGreeting() {
-        return "Hello World 123!";
-    }
+    
 
     public static void main(String[] args) {
-        Connection cnn = ConnectDB.getConnectDB();
+        new Login_Controller();
+//        Connection cnn = ConnectDB.getConnectDB();
+        
+        
+        
         
 //        System.out.println(new App().getGreeting());
     }
