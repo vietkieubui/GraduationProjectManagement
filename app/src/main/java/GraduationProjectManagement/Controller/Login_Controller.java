@@ -5,16 +5,27 @@
 package GraduationProjectManagement.Controller;
 
 import GraduationProjectManagement.View.Login_View;
+import java.awt.event.ActionEvent;
+import java.sql.Connection;
+
 
 /**
  *
  * @author BVKieu
  */
 public class Login_Controller {
-    Login_View view;
+    Login_View view = new Login_View();
+    Connection cnn = ConnectDB.getConnectDB();
 
     public Login_Controller() {
-        this.view = new Login_View(null, true);
-        view.show();
+        loginButtonActionListener();
+    }
+
+   
+    
+    private void loginButtonActionListener(){
+        view.addActionListener((ActionEvent e) -> {
+            System.out.println("Hello");
+        }, view.loginButton);
     }
 }

@@ -7,12 +7,8 @@ public class App {
     
 
     public static void main(String[] args) {
-        new Login_Controller();
+        Login_Controller login_Controller = new Login_Controller();
 //        Connection cnn = ConnectDB.getConnectDB();
-        
-        
-        
-        
 //        System.out.println(new App().getGreeting());
     }
 }
