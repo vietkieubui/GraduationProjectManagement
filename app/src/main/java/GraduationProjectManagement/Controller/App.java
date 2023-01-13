@@ -8,7 +8,9 @@ import java.sql.Connection;
 public class App {
 
     public static void main(String[] args) {
-        ConnectDB_Controller loginDB_Controller = new ConnectDB_Controller();
+        new Auth_Controller();
+//        ConnectDB_Controller loginDB_Controller = new ConnectDB_Controller();
+
 //        Connection cnn = ConnectDB.getConnectDB();
 //        System.out.println(new App().getGreeting());
     }
