@@ -26,7 +26,7 @@ public class ConnectDatabase {
 
     public void connectDatabase(String ipAddress, String username, String password) {
         try {
-            String url = "jdbc:sqlserver://" + ipAddress + "\\SQLEXPRESS:1433;databaseName=testDATN;encrypt=true;trustServerCertificate=true;";
+            String url = "jdbc:sqlserver://" + ipAddress + "\\SQLEXPRESS:1433;databaseName=GraduationProjectManagement;encrypt=true;trustServerCertificate=true;";
             String user = username;
             String pass = password;
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

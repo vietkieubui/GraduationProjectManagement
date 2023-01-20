@@ -6,6 +6,7 @@ package GraduationProjectManagement.Controller;
 
 import GraduationProjectManagement.Model.Auth.Login_Model;
 import GraduationProjectManagement.Model.Auth.Register_Model;
+import GraduationProjectManagement.Model.Auth.User;
 import GraduationProjectManagement.Utils.Helpers;
 import GraduationProjectManagement.View.Auth.Auth_View;
 import GraduationProjectManagement.View.Auth.Login_Panel;
@@ -16,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,6 +33,14 @@ public class Auth_Controller {
         authView.setLayout(new BorderLayout());
         authView.add(loginPanel, BorderLayout.CENTER);
         authView.setVisible(true);
+        loginPanel.usernameText.setText("admin");
+        loginPanel.passwordText.setText("1");
+        registerPanel.nameText.setText("Bùi Việt Kiều");
+        registerPanel.phonenumberText.setText("0123456789");
+        registerPanel.usernameText.setText("admin");
+        registerPanel.passwordText.setText("1");
+        registerPanel.confirmPasswordText.setText("1");
+
         loginViewActionListener();
         registerViewActionListener();
     }
@@ -42,6 +52,10 @@ public class Auth_Controller {
                 String userName = loginPanel.usernameText.getText();
                 String password = loginPanel.passwordText.getText();
                 Login_Model loginModel = new Login_Model(userName, password);
+                if(Helpers.login(loginModel.username, loginModel.password)){
+                    Helpers.showMess("Đăng nhập thành công");
+                    System.out.println(User.name);
+                }
             }
         });
         Helpers.addActionListener(loginPanel.registerLabel, new MouseListener() {
@@ -81,10 +95,13 @@ public class Auth_Controller {
                 String username = registerPanel.usernameText.getText();
                 String password = registerPanel.passwordText.getText();
                 String confirmPassword = registerPanel.confirmPasswordText.getText();
-                Register_Model registerModel = new Register_Model(name,phonenumber,username,password, confirmPassword);
+                if(Helpers.register(name, username, phonenumber, password, confirmPassword)){
+                    registerPanel.setVisible(false);
+                    authView.add(loginPanel, BorderLayout.CENTER);
+                    loginPanel.setVisible(true);
+                }
             }
         });
-
         Helpers.addActionListener(registerPanel.loginLabel, new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
