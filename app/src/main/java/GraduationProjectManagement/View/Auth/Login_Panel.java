@@ -47,6 +47,7 @@ public class Login_Panel extends javax.swing.JPanel {
 
         jLabel18.setText("Chưa có tài khoản?");
 
+        registerLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         registerLabel.setText("Đăng kí");
         registerLabel.setName("registerLabel"); // NOI18N
 

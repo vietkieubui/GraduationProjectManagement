@@ -108,6 +108,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="registerLabel">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="1"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng k&#xed;"/>
         <Property name="name" type="java.lang.String" value="registerLabel" noResource="true"/>
       </Properties>

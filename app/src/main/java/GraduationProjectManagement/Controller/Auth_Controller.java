@@ -4,6 +4,8 @@
  */
 package GraduationProjectManagement.Controller;
 
+import GraduationProjectManagement.Model.Auth.Login_Model;
+import GraduationProjectManagement.Model.Auth.Register_Model;
 import GraduationProjectManagement.Utils.Helpers;
 import GraduationProjectManagement.View.Auth.Auth_View;
 import GraduationProjectManagement.View.Auth.Login_Panel;
@@ -37,7 +39,9 @@ public class Auth_Controller {
         Helpers.addActionListener(loginPanel.loginButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                String userName = loginPanel.usernameText.getText();
+                String password = loginPanel.passwordText.getText();
+                Login_Model loginModel = new Login_Model(userName, password);
             }
         });
         Helpers.addActionListener(loginPanel.registerLabel, new MouseListener() {
@@ -69,9 +73,21 @@ public class Auth_Controller {
     }
 
     private void registerViewActionListener() {
+        Helpers.addActionListener(registerPanel.registerButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = registerPanel.nameText.getText();
+                String phonenumber = registerPanel.phonenumberText.getText();
+                String username = registerPanel.usernameText.getText();
+                String password = registerPanel.passwordText.getText();
+                String confirmPassword = registerPanel.confirmPasswordText.getText();
+                Register_Model registerModel = new Register_Model(name,phonenumber,username,password, confirmPassword);
+            }
+        });
+
         Helpers.addActionListener(registerPanel.loginLabel, new MouseListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {                
+            public void mouseClicked(MouseEvent e) {
                 registerPanel.setVisible(false);
                 authView.add(loginPanel, BorderLayout.CENTER);
                 loginPanel.setVisible(true);

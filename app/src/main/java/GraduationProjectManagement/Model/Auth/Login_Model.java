@@ -10,28 +10,11 @@ package GraduationProjectManagement.Model.Auth;
  */
 public class Login_Model {
 
-    String userName;
-    String password;
+    public String username;
+    public String password;
 
-    public Login_Model(String userName, String password) {
-        this.userName = userName;
+    public Login_Model(String username, String password) {
+        this.username = username;
         this.password = password;
     }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 }

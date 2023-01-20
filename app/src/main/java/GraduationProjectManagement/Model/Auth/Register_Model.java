@@ -10,18 +10,14 @@ package GraduationProjectManagement.Model.Auth;
  */
 public class Register_Model extends Login_Model {
 
-    String confirmPassword;
+    public String confirmPassword;
+    public String name;
+    public String phonenumber;
 
-    public Register_Model(String userName, String password, String confirmPassword) {
+    public Register_Model(String name, String phonenumber, String userName, String password, String confirmPassword) {
         super(userName, password);
         this.confirmPassword = confirmPassword;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
+        this.name = name;
+        this.phonenumber = phonenumber;
+    }    
 }
