@@ -3,12 +3,12 @@
  */
 package GraduationProjectManagement.Controller;
 
-import java.sql.Connection;
 
 public class App {
 
     public static void main(String[] args) {
-        new Auth_Controller();
+//        new Auth_Controller();
+          new ConnectDB_Controller();
 //        ConnectDB_Controller loginDB_Controller = new ConnectDB_Controller();
 
 //        Connection cnn = ConnectDB.getConnectDB();

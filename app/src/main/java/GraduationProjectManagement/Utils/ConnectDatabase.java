@@ -31,7 +31,7 @@ public class ConnectDatabase {
             String pass = password;
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             cnn = DriverManager.getConnection(url, user, pass);
-            JOptionPane.showMessageDialog(null, "Connected!");
+//            JOptionPane.showMessageDialog(null, "Đã kết nối!");
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
         }

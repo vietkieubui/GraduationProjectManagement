@@ -9,12 +9,11 @@ import GraduationProjectManagement.View.Auth.Auth_View;
 import GraduationProjectManagement.View.Auth.Login_Panel;
 import GraduationProjectManagement.View.Auth.Register_Panel;
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  *
@@ -22,39 +21,80 @@ import javax.swing.JTextField;
  */
 public class Auth_Controller {
 
-    Auth_View view = new Auth_View();
-    JPanel loginPanel = new Login_Panel();
-    JPanel registerPanel = new Register_Panel();
+    Auth_View authView = new Auth_View();
+    Login_Panel loginPanel = new Login_Panel();
+    Register_Panel registerPanel = new Register_Panel();
 
     public Auth_Controller() {
-        view.setLayout(new BorderLayout());
-        view.add(loginPanel, BorderLayout.CENTER);
-        view.setVisible(true);
-        loginButtonActionListener();
-        registerButtonActionListener();
+        authView.setLayout(new BorderLayout());
+        authView.add(loginPanel, BorderLayout.CENTER);
+        authView.setVisible(true);
+        loginViewActionListener();
+        registerViewActionListener();
     }
 
-    private void loginButtonActionListener() {
-        Helpers.addActionListener(new ActionListener() {
+    private void loginViewActionListener() {
+        Helpers.addActionListener(loginPanel.loginButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField usernameText = (JTextField) Helpers.getComponent(loginPanel, "usernameText");
-                JTextField passwordText = (JTextField) Helpers.getComponent(loginPanel, "passwordText");
-
-                System.out.println(usernameText.getText() + passwordText.getText());
+                
             }
-        }, (JButton) Helpers.getComponent(loginPanel, "loginButton"));
+        });
+        Helpers.addActionListener(loginPanel.registerLabel, new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                loginPanel.setVisible(false);
+                authView.add(registerPanel, BorderLayout.CENTER);
+                registerPanel.setVisible(true);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                loginPanel.registerLabel.setForeground(Color.BLUE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                loginPanel.registerLabel.setForeground(Color.BLACK);
+            }
+        });
     }
 
-    private void registerButtonActionListener() {
-        Helpers.addActionListener(new ActionListener() {
+    private void registerViewActionListener() {
+        Helpers.addActionListener(registerPanel.loginLabel, new MouseListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                view.add(registerPanel, BorderLayout.CENTER);
-
-                view.remove(loginPanel);
+            public void mouseClicked(MouseEvent e) {                
+                registerPanel.setVisible(false);
+                authView.add(loginPanel, BorderLayout.CENTER);
+                loginPanel.setVisible(true);
             }
-        }, (JButton) Helpers.getComponent(loginPanel, "registerButton"));
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                registerPanel.loginLabel.setForeground(Color.BLUE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                registerPanel.loginLabel.setForeground(Color.BLACK);
+            }
+        });
     }
 
 }
