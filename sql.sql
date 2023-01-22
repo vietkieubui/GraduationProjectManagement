@@ -12,5 +12,6 @@
 /*
 SELECT * FROM Users;
 Delete  from Users
+SELECT * FROM Users WHERE username = 'admin' AND password = 'c4ca4238a0b923820dcc509a6f75849b'
 SELECT * FROM Users
 */

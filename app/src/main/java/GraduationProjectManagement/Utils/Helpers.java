@@ -1,6 +1,6 @@
 package GraduationProjectManagement.Utils;
 
-import GraduationProjectManagement.Model.Auth.Register_Model;
+import GraduationProjectManagement.Model.Auth.RegisterModel;
 import GraduationProjectManagement.Model.Auth.User;
 import static GraduationProjectManagement.Utils.ConnectDatabase.cnn;
 import java.awt.BorderLayout;
@@ -65,7 +65,7 @@ public final class Helpers {
             return false;
         } else {
             String hashedPassword = Helpers.hashPassword(password);
-            Register_Model registerModel = new Register_Model(name, phonenumber, username, hashedPassword, confirmPassword);
+            RegisterModel registerModel = new RegisterModel(name, phonenumber, username, hashedPassword, confirmPassword);
 
             String[] columnsName = {"name", "username", "phonenumber", "password"};
             String[] valuesName = {Helpers.toSQLString(registerModel.name, true), Helpers.toSQLString(registerModel.username), Helpers.toSQLString(registerModel.phonenumber), Helpers.toSQLString(registerModel.password)};

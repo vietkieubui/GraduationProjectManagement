@@ -14,15 +14,16 @@ import javax.swing.JButton;
  *
  * @author BVKieu
  */
-public class ConnectDB_View extends javax.swing.JFrame {
+public class ConnectDBView extends javax.swing.JFrame {
 
     /**
      * Creates new form Login_View1
      */
-    public ConnectDB_View() {
+    public ConnectDBView() {
         initComponents();
         Position position = new Position(this);
         setLocation(position.getX(), position.getY());
+        connectButton.requestFocus();
         setVisible(true);
     }
 
@@ -119,14 +120,22 @@ public class ConnectDB_View extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConnectDB_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConnectDBView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConnectDB_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConnectDBView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConnectDB_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConnectDBView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConnectDB_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConnectDBView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -139,7 +148,7 @@ public class ConnectDB_View extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConnectDB_View().setVisible(true);
+                new ConnectDBView().setVisible(true);
             }
         });
     }

@@ -4,17 +4,21 @@
  */
 package GraduationProjectManagement.View.Auth;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author BVKieu
  */
-public class Login_Panel extends javax.swing.JPanel {
+public class LoginPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form LoginPanel
      */
-    public Login_Panel() {
-        initComponents();        
+    public LoginPanel() {
+        initComponents();  
+        setFocusable(true);
+        loginButton.requestFocus();
     }
 
     /**

@@ -8,8 +8,8 @@ public class App {
 
     public static void main(String[] args) {
 //        new Auth_Controller();
-          new ConnectDB_Controller();
-//        ConnectDB_Controller loginDB_Controller = new ConnectDB_Controller();
+          new ConnectDBController();
+//        ConnectDBController loginDB_Controller = new ConnectDBController();
 
 //        Connection cnn = ConnectDB.getConnectDB();
 //        System.out.println(new App().getGreeting());

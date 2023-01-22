@@ -8,12 +8,12 @@ package GraduationProjectManagement.View.Auth;
  *
  * @author BVKieu
  */
-public class Register_Panel extends javax.swing.JPanel {
+public class RegisterPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form Register_Panel
      */
-    public Register_Panel() {
+    public RegisterPanel() {
         initComponents();
     }
 

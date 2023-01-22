@@ -4,13 +4,13 @@
  */
 package GraduationProjectManagement.Controller;
 
-import GraduationProjectManagement.Model.Auth.Login_Model;
-import GraduationProjectManagement.Model.Auth.Register_Model;
+import GraduationProjectManagement.Model.Auth.LoginModel;
+import GraduationProjectManagement.Model.Auth.RegisterModel;
 import GraduationProjectManagement.Model.Auth.User;
 import GraduationProjectManagement.Utils.Helpers;
-import GraduationProjectManagement.View.Auth.Auth_View;
-import GraduationProjectManagement.View.Auth.Login_Panel;
-import GraduationProjectManagement.View.Auth.Register_Panel;
+import GraduationProjectManagement.View.Auth.AuthView;
+import GraduationProjectManagement.View.Auth.LoginPanel;
+import GraduationProjectManagement.View.Auth.RegisterPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -23,13 +23,13 @@ import javax.swing.JOptionPane;
  *
  * @author BVKieu
  */
-public class Auth_Controller {
+public class AuthController {
 
-    Auth_View authView = new Auth_View();
-    Login_Panel loginPanel = new Login_Panel();
-    Register_Panel registerPanel = new Register_Panel();
+    AuthView authView = new AuthView();
+    LoginPanel loginPanel = new LoginPanel();
+    RegisterPanel registerPanel = new RegisterPanel();
 
-    public Auth_Controller() {
+    public AuthController() {
         authView.setLayout(new BorderLayout());
         authView.add(loginPanel, BorderLayout.CENTER);
         authView.setVisible(true);
@@ -51,10 +51,12 @@ public class Auth_Controller {
             public void actionPerformed(ActionEvent e) {
                 String userName = loginPanel.usernameText.getText();
                 String password = loginPanel.passwordText.getText();
-                Login_Model loginModel = new Login_Model(userName, password);
+                LoginModel loginModel = new LoginModel(userName, password);
                 if(Helpers.login(loginModel.username, loginModel.password)){
                     Helpers.showMess("Đăng nhập thành công");
                     System.out.println(User.name);
+                    MainController mainController = new MainController();
+                    authView.dispose();
                 }
             }
         });
