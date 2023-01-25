@@ -53,7 +53,7 @@ public class AuthController {
                 String password = loginPanel.passwordText.getText();
                 LoginModel loginModel = new LoginModel(userName, password);
                 if(Helpers.login(loginModel.username, loginModel.password)){
-                    Helpers.showMess("Đăng nhập thành công");
+//                    Helpers.showMess("Đăng nhập thành công");
                     System.out.println(User.name);
                     MainController mainController = new MainController();
                     authView.dispose();
