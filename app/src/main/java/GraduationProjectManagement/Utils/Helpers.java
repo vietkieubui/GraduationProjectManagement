@@ -3,22 +3,21 @@ package GraduationProjectManagement.Utils;
 import GraduationProjectManagement.Model.Auth.RegisterModel;
 import GraduationProjectManagement.Model.Auth.User;
 import static GraduationProjectManagement.Utils.ConnectDatabase.cnn;
-import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.security.*;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -55,7 +54,7 @@ public final class Helpers {
     }
 
     public static boolean register(String name, String username, String phonenumber, String password, String confirmPassword) {
-        
+
         if (!password.equals(confirmPassword)) {
             JOptionPane.showMessageDialog(null, "Mật khẩu không trùng khớp!");
             return false;
@@ -68,9 +67,9 @@ public final class Helpers {
             RegisterModel registerModel = new RegisterModel(name, phonenumber, username, hashedPassword, confirmPassword);
 
             String[] columnsName = {"name", "username", "phonenumber", "password"};
-            String[] valuesName = {Helpers.toSQLString(registerModel.name, true), Helpers.toSQLString(registerModel.username), Helpers.toSQLString(registerModel.phonenumber), Helpers.toSQLString(registerModel.password)};
+            String[] values = {Helpers.toSQLString(registerModel.name, true), Helpers.toSQLString(registerModel.username), Helpers.toSQLString(registerModel.phonenumber), Helpers.toSQLString(registerModel.password)};
             try {
-                Helpers.insertIntoDatabase("Users", columnsName, valuesName);
+                Helpers.insertIntoDatabase("Users", columnsName, values);
                 Helpers.showMess("Đăng ký thành công");
                 return true;
             } catch (Exception ex) {
@@ -95,6 +94,7 @@ public final class Helpers {
             }
         }
         String sql = "INSERT INTO " + tableName + "(" + columnsString + ")" + "VALUES(" + valuesString + ")";
+        System.out.println(sql);
         try {
             Statement stm = cnn.createStatement();
             stm.executeUpdate(sql);
@@ -145,5 +145,51 @@ public final class Helpers {
 
     public static void showMess(String st) {
         JOptionPane.showMessageDialog(null, st);
+    }
+
+    /**
+     *
+     * get table data
+     */
+    public static void getSchoolYears(DefaultTableModel schoolYearTable) {
+        schoolYearTable.setRowCount(0);
+        String sql = "SELECT * FROM SchoolYears ORDER BY name ASC";
+        try {
+            Statement stm = cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                schoolYearTable.addRow(new Object[]{rs.getString("name")});
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void getMajors(DefaultTableModel majorsTable) {
+        majorsTable.setRowCount(0);
+        String sql = "SELECT * FROM Majors ORDER BY name ASC";
+        try {
+            Statement stm = cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                majorsTable.addRow(new Object[]{rs.getString("majorsId"), rs.getString("name"), rs.getString("description")});
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void getCourse(DefaultTableModel courseTable) {
+        courseTable.setRowCount(0);
+        String sql = "SELECT Courses.id, Courses.name, Courses.description, Majors.name as majors FROM Courses, Majors WHERE Courses.majors = Majors.id ORDER BY name ASC";
+        try {
+            Statement stm = cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                courseTable.addRow(new Object[]{rs.getString("name"), rs.getString("majors"), rs.getString("description")});
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -4,6 +4,7 @@
  */
 package GraduationProjectManagement.Controller;
 
+import GraduationProjectManagement.Controller.Main.MainController;
 import GraduationProjectManagement.Model.Auth.LoginModel;
 import GraduationProjectManagement.Model.Auth.RegisterModel;
 import GraduationProjectManagement.Model.Auth.User;
