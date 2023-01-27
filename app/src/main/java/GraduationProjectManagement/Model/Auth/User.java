@@ -10,6 +10,7 @@ package GraduationProjectManagement.Model.Auth;
  */
 public final class User {
 
+    public static String id;
     public static String username;
     public static String name;
     public static String phonenumber;    
@@ -17,7 +18,8 @@ public final class User {
     public User() {
     }
     
-    public static void setUser(String username, String name, String phonenumber){
+    public static void setUser(String id, String username, String name, String phonenumber){
+        User.id = id;
         User.username = username;
         User.name = name;
         User.phonenumber = phonenumber;

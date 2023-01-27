@@ -23,7 +23,7 @@ public class ConnectDBController {
     Helpers helpers = new Helpers();
 
     public ConnectDBController() {
-        view.ipAddressText.setText("192.168.0.102");
+        view.ipAddressText.setText("192.168.0.105");
         view.usernameText.setText("sa");
         view.passwordText.setText("123");
         loginButtonActionListener();

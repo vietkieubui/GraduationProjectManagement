@@ -13,8 +13,10 @@ import java.security.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -36,6 +38,10 @@ public final class Helpers {
     public static void addActionListener(JLabel lb, MouseListener ml) {
         lb.addMouseListener(ml);
     }
+    
+    public static void addActionListener(JComboBox cbb, ActionListener al){
+        cbb.addActionListener(al);
+    }
 
     public static boolean login(String username, String password) {
         String hashedPassword = Helpers.hashPassword(password);
@@ -44,7 +50,7 @@ public final class Helpers {
             Statement stm = cnn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                User.setUser(rs.getString(3), rs.getString(2), rs.getString(4));
+                User.setUser(rs.getString("id"), rs.getString(3), rs.getString(2), rs.getString(4));
                 return true;
             }
         } catch (SQLException ex) {
@@ -69,16 +75,17 @@ public final class Helpers {
             String[] columnsName = {"name", "username", "phonenumber", "password"};
             String[] values = {Helpers.toSQLString(registerModel.name, true), Helpers.toSQLString(registerModel.username), Helpers.toSQLString(registerModel.phonenumber), Helpers.toSQLString(registerModel.password)};
             try {
-                Helpers.insertIntoDatabase("Users", columnsName, values);
-                Helpers.showMess("Đăng ký thành công");
-                return true;
+                if (Helpers.insertIntoDatabase("Users", columnsName, values)) {
+                    Helpers.showMess("Đăng ký thành công");
+                    return true;
+                }
             } catch (Exception ex) {
             }
         }
         return false;
     }
 
-    public static void insertIntoDatabase(String tableName, String[] columnsName, String[] values) {
+    public static boolean insertIntoDatabase(String tableName, String[] columnsName, String[] values) {
         String columnsString = "";
         String valuesString = "";
         for (int i = 0; i < columnsName.length; i++) {
@@ -98,10 +105,11 @@ public final class Helpers {
         try {
             Statement stm = cnn.createStatement();
             stm.executeUpdate(sql);
+            return true;
         } catch (SQLException ex) {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-
     }
 
     public static boolean checkExist(String tableName, String column, String value) {
@@ -149,6 +157,98 @@ public final class Helpers {
 
     /**
      *
+     * get ComboBox data
+     */
+    public static String[] getMajorsList() {
+        String[] listMajors = null;
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("--Chọn khoa--");
+        String sql = "SELECT*FROM Majors";
+        try {
+            Statement stm = ConnectDatabase.cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                list.add(rs.getString("name"));
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+            Helpers.showMess("Lỗi đọc dữ liệu từ SQL Server!");
+        }
+        listMajors = list.toArray(new String[list.size()]);
+        return listMajors;
+    }
+    
+    public static String[] getCourseList(String majorsName) {
+        String sql = "SELECT*FROM Courses";
+        if(!majorsName.equals("")){
+            String majorsId = getMajorsId(majorsName);
+            sql = "SELECT * FROM Courses WHERE majors = " + toSQLString(majorsId);
+        }
+        String[] courseList = null;
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("--Chọn khóa--");
+        
+        try {
+            Statement stm = ConnectDatabase.cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                list.add(rs.getString("name"));
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+            Helpers.showMess("Lỗi đọc dữ liệu từ SQL Server!");
+        }
+        courseList = list.toArray(new String[list.size()]);
+        return courseList;
+    }
+
+    /**
+     *
+     * get ComboBox data ID
+     */
+    public static String getMajorsId(String name) {
+        String majorsId = "";
+        String getMajorsIdSQL = "SELECT * FROM Majors";
+        Statement stm = null;
+        ResultSet rs = null;
+        try {
+            stm = ConnectDatabase.cnn.createStatement();
+            rs = stm.executeQuery(getMajorsIdSQL);
+            while (rs.next()) {
+                if (rs.getString("name").equals(name)) {
+                    majorsId = rs.getString("id");                    
+                }
+            }            
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+            Helpers.showMess("SQL Error!");
+        }
+        System.out.println(majorsId);
+        return majorsId;
+    }  
+    public static String getCourseId(String name) {
+        String majorsId = "";
+        String getCourseIdSQL = "SELECT * FROM Courses";
+        Statement stm = null;
+        ResultSet rs = null;
+        try {
+            stm = ConnectDatabase.cnn.createStatement();
+            rs = stm.executeQuery(getCourseIdSQL);
+            while (rs.next()) {
+                if (rs.getString("name").equals(name)) {
+                    majorsId = rs.getString("id");                    
+                }
+            }            
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+            Helpers.showMess("SQL Error!");
+        }
+        System.out.println(majorsId);
+        return majorsId;
+    }
+
+    /**
+     *
      * get table data
      */
     public static void getSchoolYears(DefaultTableModel schoolYearTable) {
@@ -181,12 +281,26 @@ public final class Helpers {
 
     public static void getCourse(DefaultTableModel courseTable) {
         courseTable.setRowCount(0);
-        String sql = "SELECT Courses.id, Courses.name, Courses.description, Majors.name as majors FROM Courses, Majors WHERE Courses.majors = Majors.id ORDER BY name ASC";
+        String sql = "SELECT Courses.id, Courses.name, Courses.description, Majors.name as majors, Courses.studyTime FROM Courses, Majors WHERE Courses.majors = Majors.id ORDER BY name ASC";
         try {
             Statement stm = cnn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                courseTable.addRow(new Object[]{rs.getString("name"), rs.getString("majors"), rs.getString("description")});
+                courseTable.addRow(new Object[]{rs.getString("name"), rs.getString("majors"), rs.getString("description"), rs.getString("studyTime")});
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void getClass(DefaultTableModel classTable){
+        classTable.setRowCount(0);
+        String sql = "SELECT Classes.id, Classes.name, Courses.name as course, Majors.name as majors, Courses.studyTime, Classes.description FROM Classes, Courses, Majors WHERE Classes.course = Courses.id and Courses.majors = Majors.id ORDER BY Courses.studyTime, name";
+        try {
+            Statement stm = cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                classTable.addRow(new Object[]{rs.getString("name"), rs.getString("course"), rs.getString("majors"), rs.getString("studyTime"),rs.getString("description")});
             }
         } catch (Exception ex) {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);

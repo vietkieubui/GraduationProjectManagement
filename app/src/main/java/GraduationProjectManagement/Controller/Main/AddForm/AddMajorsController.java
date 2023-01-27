@@ -36,8 +36,9 @@ public class AddMajorsController {
                 String[] columnsName = {"majorsId", "name", "description"};
                 String[] values = {Helpers.toSQLString(majors.majorsId), Helpers.toSQLString(majors.name,true), Helpers.toSQLString(majors.description,true)};
                 try {
-                    Helpers.insertIntoDatabase("Majors", columnsName, values);
-                    Helpers.showMess("Thêm thành công!");
+                    if(Helpers.insertIntoDatabase("Majors", columnsName, values)){
+                        Helpers.showMess("Thêm thành công!");
+                    }
                     Helpers.getMajors(table);
                     addMajorsForm.dispose();
                 } catch (Exception ex) {

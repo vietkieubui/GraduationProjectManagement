@@ -4,6 +4,7 @@
  */
 package GraduationProjectManagement.Controller.Main;
 
+import GraduationProjectManagement.Controller.Main.AddForm.AddClassController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddCourseController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddMajorsController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddSchoolYearController;
@@ -40,6 +41,7 @@ public final class MainController {
     DefaultTableModel schoolYearTable = (DefaultTableModel) schoolYearManagementPanel.schoolYearTable.getModel();
     DefaultTableModel majorsTable = (DefaultTableModel) majorsManagementPanel.majorsTable.getModel();
     DefaultTableModel courseTable = (DefaultTableModel) courseManagementPanel.courseTable.getModel();
+    DefaultTableModel classTable = (DefaultTableModel) classManagementPanel.classTable.getModel();
  
     public MainController() {
         this.mainView = new MainView();
@@ -51,9 +53,11 @@ public final class MainController {
         currentPanel = projectManagementPanel;
         mainView.setVisible(true);
         mainViewButtonActionListener();
+        classPanelActionListener();
         coursePanelActionListener();        
         majorsPanelActionListener();
         schoolYearPanelActionListener();
+        
     }
 
     public void mainViewButtonActionListener() {
@@ -87,6 +91,7 @@ public final class MainController {
         Helpers.addActionListener(mainView.classButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Helpers.getClass(classTable);
                 currentPanel.setVisible(false);
                 mainView.mainPanel.add(classManagementPanel);
                 classManagementPanel.setVisible(true);
@@ -124,6 +129,15 @@ public final class MainController {
                 mainView.mainPanel.add(majorsManagementPanel);
                 majorsManagementPanel.setVisible(true);
                 currentPanel = majorsManagementPanel;
+            }
+        });
+    }
+    
+    public void classPanelActionListener(){
+        Helpers.addActionListener(classManagementPanel.addButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddClassController(classTable);
             }
         });
     }

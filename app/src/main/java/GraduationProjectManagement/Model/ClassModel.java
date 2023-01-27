@@ -8,19 +8,15 @@ package GraduationProjectManagement.Model;
  *
  * @author BVKieu
  */
-public class CourseModel {
-
+public class ClassModel {
     public String id;
     public String name;
     public String description;
-    public String studyTime;
-    public String majors ;
+    public String course;
 
-    public CourseModel(String name, String description, String studyTime, String majors) {
+    public ClassModel(String name, String description, String course) {
         this.name = name;
         this.description = description;
-        this.studyTime = studyTime;
-        this.majors = majors;
+        this.course = course;
     }
-    
 }

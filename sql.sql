@@ -1,5 +1,5 @@
  -- create database GraduationProjectManagement;
- use GraduationProjectManagement
+ use GraduationProjectManagement;
 
  create table Users(
 	id int IDENTITY(1,1) PRIMARY KEY,
@@ -42,10 +42,25 @@ create table Courses(
 	id int IDENTITY(1,1) PRIMARY KEY,
 	name NVARCHAR(200) NOT NULL,
 	description NVARCHAR(200),
+	studyTime VARCHAR(20) NOT NULL,
 	majors int FOREIGN KEY REFERENCES Majors(id)
 )
+
 /*
-SELECT * FROM Courses, 
+SELECT * FROM Courses
 Delete from Majors
 */
 SELECT Courses.id, Courses.name, Courses.description, Majors.name as majors FROM Courses, Majors WHERE Courses.majors = Majors.id
+
+create table Classes(
+	id int IDENTITY(1,1) PRIMARY KEY,
+	name NVARCHAR(200) NOT NULL,
+	description NVARCHAR(200),
+	course int FOREIGN KEY REFERENCES Courses(id)
+)
+
+SELECT * FROM Classes
+SELECT Classes.id, Classes.name, Courses.name as course, Majors.name as majors, Courses.studyTime, Classes.description FROM Classes, Courses, Majors WHERE Classes.course = Courses.id and Courses.majors = Majors.id
+
+
+/**/

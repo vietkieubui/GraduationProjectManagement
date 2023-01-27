@@ -35,8 +35,9 @@ public final class AddSchoolYearController {
                 String[] columnsName = {"name"};
                 String[] values = {Helpers.toSQLString(schoolYear.name)};
                 try {
-                    Helpers.insertIntoDatabase("SchoolYears", columnsName, values);
-                    Helpers.showMess("Thêm thành công!");
+                    if (Helpers.insertIntoDatabase("SchoolYears", columnsName, values)) {
+                        Helpers.showMess("Thêm thành công!");
+                    }
                     Helpers.getSchoolYears(table);
                     addSchoolYearForm.dispose();
                 } catch (Exception ex) {
