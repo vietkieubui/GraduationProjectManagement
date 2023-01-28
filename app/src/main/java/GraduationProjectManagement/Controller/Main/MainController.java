@@ -8,6 +8,7 @@ import GraduationProjectManagement.Controller.Main.AddForm.AddClassController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddCourseController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddMajorsController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddSchoolYearController;
+import GraduationProjectManagement.Controller.Main.AddForm.AddTeacherController;
 import GraduationProjectManagement.Utils.Helpers;
 import GraduationProjectManagement.View.Main.*;
 import java.awt.BorderLayout;
@@ -42,7 +43,8 @@ public final class MainController {
     DefaultTableModel majorsTable = (DefaultTableModel) majorsManagementPanel.majorsTable.getModel();
     DefaultTableModel courseTable = (DefaultTableModel) courseManagementPanel.courseTable.getModel();
     DefaultTableModel classTable = (DefaultTableModel) classManagementPanel.classTable.getModel();
- 
+    DefaultTableModel teacherTable = (DefaultTableModel) teacherManagementPanel.teacherTable.getModel();
+
     public MainController() {
         this.mainView = new MainView();
         setupTable();
@@ -54,10 +56,10 @@ public final class MainController {
         mainView.setVisible(true);
         mainViewButtonActionListener();
         classPanelActionListener();
-        coursePanelActionListener();        
+        coursePanelActionListener();
         majorsPanelActionListener();
         schoolYearPanelActionListener();
-        
+        teacherPanelActionListener();
     }
 
     public void mainViewButtonActionListener() {
@@ -82,6 +84,7 @@ public final class MainController {
         Helpers.addActionListener(mainView.teacherButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Helpers.getTeacher(teacherTable);
                 currentPanel.setVisible(false);
                 mainView.mainPanel.add(teacherManagementPanel);
                 teacherManagementPanel.setVisible(true);
@@ -98,7 +101,7 @@ public final class MainController {
                 currentPanel = classManagementPanel;
             }
         });
-        
+
         Helpers.addActionListener(mainView.courseButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,7 +112,7 @@ public final class MainController {
                 currentPanel = courseManagementPanel;
             }
         });
-        
+
         Helpers.addActionListener(mainView.schoolYearButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,7 +123,7 @@ public final class MainController {
                 currentPanel = schoolYearManagementPanel;
             }
         });
-        
+
         Helpers.addActionListener(mainView.majorsButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -132,8 +135,17 @@ public final class MainController {
             }
         });
     }
-    
-    public void classPanelActionListener(){
+
+    public void teacherPanelActionListener() {
+        Helpers.addActionListener(teacherManagementPanel.addButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddTeacherController(teacherTable);
+            }
+        });
+    }
+
+    public void classPanelActionListener() {
         Helpers.addActionListener(classManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -141,18 +153,18 @@ public final class MainController {
             }
         });
     }
-    
-    public void coursePanelActionListener(){
+
+    public void coursePanelActionListener() {
         Helpers.addActionListener(courseManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddCourseController(courseTable);
             }
         });
-        
+
     }
-    
-    public void majorsPanelActionListener(){
+
+    public void majorsPanelActionListener() {
         Helpers.addActionListener(majorsManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -160,17 +172,17 @@ public final class MainController {
             }
         });
     }
-    
+
     public void schoolYearPanelActionListener() {
         Helpers.addActionListener(schoolYearManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddSchoolYearController(schoolYearTable);                
+                new AddSchoolYearController(schoolYearTable);
             }
         });
     }
 
-    public void setupTable(){
+    public void setupTable() {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         schoolYearManagementPanel.schoolYearTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);

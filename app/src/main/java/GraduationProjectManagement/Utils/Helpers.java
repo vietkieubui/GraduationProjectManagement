@@ -38,8 +38,8 @@ public final class Helpers {
     public static void addActionListener(JLabel lb, MouseListener ml) {
         lb.addMouseListener(ml);
     }
-    
-    public static void addActionListener(JComboBox cbb, ActionListener al){
+
+    public static void addActionListener(JComboBox cbb, ActionListener al) {
         cbb.addActionListener(al);
     }
 
@@ -108,6 +108,7 @@ public final class Helpers {
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            showMess(ex.toString());
             return false;
         }
     }
@@ -177,17 +178,17 @@ public final class Helpers {
         listMajors = list.toArray(new String[list.size()]);
         return listMajors;
     }
-    
+
     public static String[] getCourseList(String majorsName) {
         String sql = "SELECT*FROM Courses";
-        if(!majorsName.equals("")){
+        if (!majorsName.equals("")) {
             String majorsId = getMajorsId(majorsName);
             sql = "SELECT * FROM Courses WHERE majors = " + toSQLString(majorsId);
         }
         String[] courseList = null;
         ArrayList<String> list = new ArrayList<String>();
         list.add("--Chọn khóa--");
-        
+
         try {
             Statement stm = ConnectDatabase.cnn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -216,16 +217,17 @@ public final class Helpers {
             rs = stm.executeQuery(getMajorsIdSQL);
             while (rs.next()) {
                 if (rs.getString("name").equals(name)) {
-                    majorsId = rs.getString("id");                    
+                    majorsId = rs.getString("id");
                 }
-            }            
+            }
         } catch (SQLException ex) {
             System.out.println(ex.toString());
             Helpers.showMess("SQL Error!");
         }
         System.out.println(majorsId);
         return majorsId;
-    }  
+    }
+
     public static String getCourseId(String name) {
         String majorsId = "";
         String getCourseIdSQL = "SELECT * FROM Courses";
@@ -236,9 +238,9 @@ public final class Helpers {
             rs = stm.executeQuery(getCourseIdSQL);
             while (rs.next()) {
                 if (rs.getString("name").equals(name)) {
-                    majorsId = rs.getString("id");                    
+                    majorsId = rs.getString("id");
                 }
-            }            
+            }
         } catch (SQLException ex) {
             System.out.println(ex.toString());
             Helpers.showMess("SQL Error!");
@@ -292,18 +294,35 @@ public final class Helpers {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static void getClass(DefaultTableModel classTable){
+
+    public static void getClass(DefaultTableModel classTable) {
         classTable.setRowCount(0);
         String sql = "SELECT Classes.id, Classes.name, Courses.name as course, Majors.name as majors, Courses.studyTime, Classes.description FROM Classes, Courses, Majors WHERE Classes.course = Courses.id and Courses.majors = Majors.id ORDER BY Courses.studyTime, name";
         try {
             Statement stm = cnn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                classTable.addRow(new Object[]{rs.getString("name"), rs.getString("course"), rs.getString("majors"), rs.getString("studyTime"),rs.getString("description")});
+                classTable.addRow(new Object[]{rs.getString("name"), rs.getString("course"), rs.getString("majors"), rs.getString("studyTime"), rs.getString("description")});
             }
         } catch (Exception ex) {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static void getTeacher(DefaultTableModel teacherTable){
+        teacherTable.setRowCount(0);
+        String sql = "SELECT Teachers.id, Teachers.name, Teachers.academicRank, Majors.name as majors, Teachers.phonenumber, Teachers.email "
+                + "FROM Teachers, Majors WHERE Teachers.majors = Majors.id ORDER BY Teachers.name";
+        try {
+            Statement stm = cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                teacherTable.addRow(new Object[]{rs.getString("name"), rs.getString("academicRank"), rs.getString("majors"), rs.getString("phonenumber"), rs.getString("email")});
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
 }

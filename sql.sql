@@ -60,7 +60,17 @@ create table Classes(
 )
 
 SELECT * FROM Classes
-SELECT Classes.id, Classes.name, Courses.name as course, Majors.name as majors, Courses.studyTime, Classes.description FROM Classes, Courses, Majors WHERE Classes.course = Courses.id and Courses.majors = Majors.id
+SELECT Classes.id, Classes.name, Courses.name as course, Majors.name as majors, Courses.studyTime, Classes.description FROM Classes, Courses, Majors WHERE Classes.course = Courses.id and Courses.majors = Majors.id ORDER BY Courses.studyTime, name
 
+create table Teachers(
+	id int IDENTITY(1,1) PRIMARY KEY,
+	name NVARCHAR(200) NOT NULL,
+	academicRank NVARCHAR(100) NOT NULL,
+	majors int FOREIGN KEY REFERENCES Majors(id),
+	phonenumber VARCHAR(20) NOT NULL,
+	email VARCHAR(200) NOT NULL,
+)
+SELECT * FROM Teachers
+SELECT Teachers.id, Teachers.name, Teachers.academicRank, Majors.name as majors, Teachers.phonenumber, Teachers.email FROM Teachers, Majors WHERE Teachers.majors = Majors.id ORDER BY Teachers.name
 
 /**/
