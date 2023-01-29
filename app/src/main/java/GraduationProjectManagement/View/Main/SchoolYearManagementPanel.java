@@ -43,11 +43,11 @@ public class SchoolYearManagementPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Niên khóa"
+                "ID", "Niên khóa"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -57,6 +57,7 @@ public class SchoolYearManagementPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(schoolYearTable);
         if (schoolYearTable.getColumnModel().getColumnCount() > 0) {
             schoolYearTable.getColumnModel().getColumn(0).setResizable(false);
+            schoolYearTable.getColumnModel().getColumn(1).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

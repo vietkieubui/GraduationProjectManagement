@@ -50,11 +50,11 @@ public class AddClassController {
         Helpers.addActionListener(addClassForm.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(addClassForm.courseComboBox.getSelectedIndex() ==0){
+                if (addClassForm.courseComboBox.getSelectedIndex() == 0) {
                     Helpers.showMess("Bạn chưa chọn khóa!");
-                }else if(addClassForm.classNameText.getText().equals("")){
+                } else if (addClassForm.classNameText.getText().equals("")) {
                     Helpers.showMess("Tên lớp không được để trống!");
-                }else{
+                } else {
                     ClassModel classModel = new ClassModel(addClassForm.classNameText.getText(),
                             addClassForm.classDescriptionText.getText(), addClassForm.courseComboBox.getSelectedItem().toString());
                     System.out.println(classModel.course);
@@ -62,12 +62,13 @@ public class AddClassController {
                     Statement stm = null;
                     ResultSet rs = null;
                     String[] columnsName = {"name", "description", "course"};
-                    String[] values = {Helpers.toSQLString(classModel.name, true), Helpers.toSQLString(classModel.description, true),Helpers.toSQLString(courseId)};
-                    if(Helpers.insertIntoDatabase("Classes", columnsName, values)){
+                    String[] values = {Helpers.toSQLString(classModel.name, true), Helpers.toSQLString(classModel.description, true), Helpers.toSQLString(courseId)};
+                    if (Helpers.insertIntoDatabase("Classes", columnsName, values)) {
                         Helpers.showMess("Thêm thành công!");
+                        Helpers.getClass(table);
+                        addClassForm.dispose();
                     }
-                    Helpers.getClass(table);
-                    addClassForm.dispose();
+
                 }
             }
         });

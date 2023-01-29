@@ -37,9 +37,10 @@ public final class AddSchoolYearController {
                 try {
                     if (Helpers.insertIntoDatabase("SchoolYears", columnsName, values)) {
                         Helpers.showMess("Thêm thành công!");
+                        Helpers.getSchoolYears(table);
+                        addSchoolYearForm.dispose();
                     }
-                    Helpers.getSchoolYears(table);
-                    addSchoolYearForm.dispose();
+
                 } catch (Exception ex) {
                     Helpers.showMess(ex.toString());
                 }

@@ -44,14 +44,14 @@ public class AddTeacherController {
                     String majorsId = Helpers.getMajorsId(teacher.majors);
                     Statement stm = null;
                     ResultSet rs = null;
-                    String[] columnsName = {"name", "academicRank", "majors", "phonenumber","email"};
-                    String[] values = {Helpers.toSQLString(teacher.name, true), Helpers.toSQLString(teacher.academicRank, true), 
-                        Helpers.toSQLString(majorsId), Helpers.toSQLString(teacher.phonenumber),Helpers.toSQLString(teacher.email)};
+                    String[] columnsName = {"name", "academicRank", "majors", "phonenumber", "email"};
+                    String[] values = {Helpers.toSQLString(teacher.name, true), Helpers.toSQLString(teacher.academicRank, true),
+                        Helpers.toSQLString(majorsId), Helpers.toSQLString(teacher.phonenumber), Helpers.toSQLString(teacher.email)};
                     if (Helpers.insertIntoDatabase("Teachers", columnsName, values)) {
                         Helpers.showMess("Thêm thành công!");
+                        Helpers.getTeacher(table);
+                        addTeacherForm.dispose();
                     }
-                    Helpers.getTeacher(table);
-                    addTeacherForm.dispose();
                 }
             }
         });

@@ -308,8 +308,8 @@ public final class Helpers {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static void getTeacher(DefaultTableModel teacherTable){
+
+    public static void getTeacher(DefaultTableModel teacherTable) {
         teacherTable.setRowCount(0);
         String sql = "SELECT Teachers.id, Teachers.name, Teachers.academicRank, Majors.name as majors, Teachers.phonenumber, Teachers.email "
                 + "FROM Teachers, Majors WHERE Teachers.majors = Majors.id ORDER BY Teachers.name";
@@ -317,12 +317,11 @@ public final class Helpers {
             Statement stm = cnn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                teacherTable.addRow(new Object[]{rs.getString("name"), rs.getString("academicRank"), rs.getString("majors"), rs.getString("phonenumber"), rs.getString("email")});
+                teacherTable.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getString("academicRank"), rs.getString("majors"), rs.getString("phonenumber"), rs.getString("email")});
             }
         } catch (Exception ex) {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
     }
 }

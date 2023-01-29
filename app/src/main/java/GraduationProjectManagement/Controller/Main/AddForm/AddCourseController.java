@@ -43,12 +43,13 @@ public class AddCourseController {
                     Statement stm = null;
                     ResultSet rs = null;
                     String[] columnsName = {"name", "description", "studyTime", "majors"};
-                    String[] values = {Helpers.toSQLString(course.name, true), Helpers.toSQLString(course.description, true),Helpers.toSQLString(course.studyTime), Helpers.toSQLString(majorsId)};
-                    if(Helpers.insertIntoDatabase("Courses", columnsName, values)){
+                    String[] values = {Helpers.toSQLString(course.name, true), Helpers.toSQLString(course.description, true), Helpers.toSQLString(course.studyTime), Helpers.toSQLString(majorsId)};
+                    if (Helpers.insertIntoDatabase("Courses", columnsName, values)) {
                         Helpers.showMess("Thêm thành công!");
+                        Helpers.getCourse(table);
+                        addCourseForm.dispose();
                     }
-                    Helpers.getCourse(table);
-                    addCourseForm.dispose();
+
                 }
             }
         });

@@ -40,17 +40,17 @@ public class TeacherManagementPanel extends javax.swing.JPanel {
 
         teacherTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Tên GV", "Học hàm", "Khoa", "SĐT", "Email"
+                "ID", "Tên GV", "Học hàm", "Khoa", "SĐT", "Email"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                true, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -59,10 +59,10 @@ public class TeacherManagementPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(teacherTable);
         if (teacherTable.getColumnModel().getColumnCount() > 0) {
-            teacherTable.getColumnModel().getColumn(1).setResizable(false);
             teacherTable.getColumnModel().getColumn(2).setResizable(false);
             teacherTable.getColumnModel().getColumn(3).setResizable(false);
             teacherTable.getColumnModel().getColumn(4).setResizable(false);
+            teacherTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

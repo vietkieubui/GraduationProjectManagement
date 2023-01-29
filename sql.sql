@@ -21,6 +21,7 @@ create table SchoolYears(
 	id int IDENTITY(1,1) PRIMARY KEY,
 	name VARCHAR(20) NOT NULL,
 )
+ALTER TABLE SchoolYears ADD UNIQUE(name);
 
 /*
 SELECT * FROM SchoolYears
@@ -28,10 +29,11 @@ SELECT * FROM SchoolYears
 
 create table Majors(
 	id int IDENTITY(1,1) PRIMARY KEY,
-	majorsId VARCHAR(20) NOT NULL,
+	majorsId VARCHAR(20) NOT NULL ,
 	name NVARCHAR(200) NOT NULL,
 	description NVARCHAR(200),
 )
+ALTER TABLE Majors ADD UNIQUE(majorsId)
 
 /*
 SELECT * FROM Majors
@@ -45,7 +47,7 @@ create table Courses(
 	studyTime VARCHAR(20) NOT NULL,
 	majors int FOREIGN KEY REFERENCES Majors(id)
 )
-
+ALTER TABLE Courses ADD UNIQUE(name)
 /*
 SELECT * FROM Courses
 Delete from Majors
@@ -59,6 +61,10 @@ create table Classes(
 	course int FOREIGN KEY REFERENCES Courses(id)
 )
 
+ALTER TABLE Classes ADD UNIQUE(name)
+
+
+
 SELECT * FROM Classes
 SELECT Classes.id, Classes.name, Courses.name as course, Majors.name as majors, Courses.studyTime, Classes.description FROM Classes, Courses, Majors WHERE Classes.course = Courses.id and Courses.majors = Majors.id ORDER BY Courses.studyTime, name
 
@@ -70,6 +76,8 @@ create table Teachers(
 	phonenumber VARCHAR(20) NOT NULL,
 	email VARCHAR(200) NOT NULL,
 )
+
+ALTER TABLE Teachers ADD UNIQUE(phonenumber, email)
 SELECT * FROM Teachers
 SELECT Teachers.id, Teachers.name, Teachers.academicRank, Majors.name as majors, Teachers.phonenumber, Teachers.email FROM Teachers, Majors WHERE Teachers.majors = Majors.id ORDER BY Teachers.name
 

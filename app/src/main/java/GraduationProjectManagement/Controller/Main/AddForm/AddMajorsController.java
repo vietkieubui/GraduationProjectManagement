@@ -34,13 +34,14 @@ public class AddMajorsController {
             public void actionPerformed(ActionEvent e) {
                 MajorsModel majors = new MajorsModel(addMajorsForm.majorsIdText.getText(), addMajorsForm.majorsNameText.getText(), addMajorsForm.majorsDescriptionText.getText());
                 String[] columnsName = {"majorsId", "name", "description"};
-                String[] values = {Helpers.toSQLString(majors.majorsId), Helpers.toSQLString(majors.name,true), Helpers.toSQLString(majors.description,true)};
+                String[] values = {Helpers.toSQLString(majors.majorsId), Helpers.toSQLString(majors.name, true), Helpers.toSQLString(majors.description, true)};
                 try {
-                    if(Helpers.insertIntoDatabase("Majors", columnsName, values)){
+                    if (Helpers.insertIntoDatabase("Majors", columnsName, values)) {
                         Helpers.showMess("Thêm thành công!");
+                        Helpers.getMajors(table);
+                        addMajorsForm.dispose();
                     }
-                    Helpers.getMajors(table);
-                    addMajorsForm.dispose();
+
                 } catch (Exception ex) {
                     Helpers.showMess(ex.toString());
                 }

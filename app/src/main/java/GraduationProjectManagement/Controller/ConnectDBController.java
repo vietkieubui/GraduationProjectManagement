@@ -9,9 +9,6 @@ import GraduationProjectManagement.Utils.Helpers;
 import GraduationProjectManagement.View.ConnectDBView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  *
@@ -23,7 +20,7 @@ public class ConnectDBController {
     Helpers helpers = new Helpers();
 
     public ConnectDBController() {
-        view.ipAddressText.setText("192.168.0.105");
+        view.ipAddressText.setText("192.168.30.103");
         view.usernameText.setText("sa");
         view.passwordText.setText("123");
         loginButtonActionListener();
