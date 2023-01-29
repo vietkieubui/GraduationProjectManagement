@@ -161,10 +161,19 @@ public final class Helpers {
      * get ComboBox data
      */
     public static String[] getMajorsList() {
+        String sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
+//        if(!className.equals("") && courseName.equals("")){
+//            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className, true);
+//        }else if(className.equals("") && !courseName.equals("")){
+//            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Course.name = " + toSQLString(courseName, true);
+//        }else if(!className.equals("") && !courseName.equals("")){
+//            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Course.name = " + toSQLString(courseName, true) + " and Classes.name = " + toSQLString(className, true);
+//        }
+        
         String[] listMajors = null;
         ArrayList<String> list = new ArrayList<String>();
         list.add("--Chọn khoa--");
-        String sql = "SELECT*FROM Majors";
+        
         try {
             Statement stm = ConnectDatabase.cnn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -202,6 +211,80 @@ public final class Helpers {
         courseList = list.toArray(new String[list.size()]);
         return courseList;
     }
+    
+    public static String[] getClassList(String majorsName, String courseName) {
+        String sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
+        if (!majorsName.equals("") && courseName.equals("")) {
+            String majorsId = getMajorsId(majorsName);
+            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Majors.id = " + toSQLString(majorsId);
+        }else if(majorsName.equals("") && !courseName.equals("")){
+            String courseId = getCourseId(courseName);
+            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.id = " + toSQLString(courseId);
+        }else if(!majorsName.equals("") && !courseName.equals("")){
+            String courseId = getCourseId(courseName);
+            String majorsId = getMajorsId(majorsName);
+            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors "
+                    + "and Courses.id = " + toSQLString(courseId) + " and Majors.id = " + toSQLString(majorsId);            
+        }
+        String[] courseList = null;
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("--Chọn lớp--");
+
+        try {
+            Statement stm = ConnectDatabase.cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                list.add(rs.getString("name"));
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+            Helpers.showMess("Lỗi đọc dữ liệu từ SQL Server!");
+        }
+        courseList = list.toArray(new String[list.size()]);
+        return courseList;
+    }
+    
+    public static String setSelectedMajors(String className, String courseName){
+        String majors = "";
+        String sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
+        if(!className.equals("") && courseName.equals("")){
+            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className);
+        }else if(className.equals("") && !courseName.equals("")){
+            sql = "SELECT DISTINCT Majors.name FROM Courses, Majors WHERE Majors.id = Courses.majors and Courses.name = " + toSQLString(courseName);
+        }else if(!className.equals("") && !courseName.equals("")){
+            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.name = " + toSQLString(courseName) + " and Classes.name = " + toSQLString(className);
+        }
+        try {
+            Statement stm = ConnectDatabase.cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                majors = rs.getString("name");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+            Helpers.showMess("Lỗi đọc dữ liệu từ SQL Server!");
+        }
+        return majors;
+    }
+    
+    public static String setSelectedCourses(String className){
+        String course = "";
+        String sql = "SELECT DISTINCT Courses.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
+        if(!className.equals("")){
+            sql = "SELECT DISTINCT Courses.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className);
+        }
+        try {
+            Statement stm = ConnectDatabase.cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                course = rs.getString("name");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+            Helpers.showMess("Lỗi đọc dữ liệu từ SQL Server!");
+        }
+        return course;
+    }
 
     /**
      *
@@ -224,7 +307,6 @@ public final class Helpers {
             System.out.println(ex.toString());
             Helpers.showMess("SQL Error!");
         }
-        System.out.println(majorsId);
         return majorsId;
     }
 
@@ -245,7 +327,6 @@ public final class Helpers {
             System.out.println(ex.toString());
             Helpers.showMess("SQL Error!");
         }
-        System.out.println(majorsId);
         return majorsId;
     }
 

@@ -42,11 +42,22 @@ public class AddClassController {
                     listCourse = Helpers.getCourseList("");
                 } else {
                     listCourse = Helpers.getCourseList(addClassForm.majorsComboBox.getSelectedItem().toString());
-
                 }
                 addClassForm.courseComboBox.setModel(new DefaultComboBoxModel<>(listCourse));
             }
         });
+
+        Helpers.addActionListener(addClassForm.courseComboBox, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (addClassForm.courseComboBox.getSelectedIndex() != 0 && addClassForm.majorsComboBox.getSelectedIndex() == 0) {
+                    String courseName = addClassForm.courseComboBox.getSelectedItem().toString();
+                    addClassForm.majorsComboBox.setSelectedItem(Helpers.setSelectedMajors("", addClassForm.courseComboBox.getSelectedItem().toString()));
+                    addClassForm.courseComboBox.setSelectedItem(courseName);
+                }
+            }
+        });
+
         Helpers.addActionListener(addClassForm.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,7 +68,6 @@ public class AddClassController {
                 } else {
                     ClassModel classModel = new ClassModel(addClassForm.classNameText.getText(),
                             addClassForm.classDescriptionText.getText(), addClassForm.courseComboBox.getSelectedItem().toString());
-                    System.out.println(classModel.course);
                     String courseId = Helpers.getCourseId(classModel.course);
                     Statement stm = null;
                     ResultSet rs = null;

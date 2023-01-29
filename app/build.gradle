@@ -24,6 +24,7 @@ dependencies {
     implementation 'com.google.guava:guava:31.0.1-jre'
 
     implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '11.2.1.jre11'
+    implementation group: 'com.toedter', name: 'jcalendar', version: '1.4'
 }
 
 application {

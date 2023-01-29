@@ -35,6 +35,8 @@ create table Majors(
 )
 ALTER TABLE Majors ADD UNIQUE(majorsId)
 
+
+
 /*
 SELECT * FROM Majors
 Delete from Majors
@@ -81,4 +83,19 @@ ALTER TABLE Teachers ADD UNIQUE(phonenumber, email)
 SELECT * FROM Teachers
 SELECT Teachers.id, Teachers.name, Teachers.academicRank, Majors.name as majors, Teachers.phonenumber, Teachers.email FROM Teachers, Majors WHERE Teachers.majors = Majors.id ORDER BY Teachers.name
 
+
+create table Students(
+	id VARCHAR(12) PRIMARY KEY,
+	name NVARCHAR(100) NOT NULL,
+	gender VARCHAR (10) NOT NULL,
+	birthday VARCHAR(100) NOT NULL,
+	class int FOREIGN KEY REFERENCES Classes(id),
+	phonenumber VARCHAR(20) NOT NULL UNIQUE,
+	email VARCHAR(100) NOT NULL UNIQUE,
+)
+
+
+SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = 'CT3A'
+SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.name = 'CT3'
+SELECT DISTINCT Courses.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = 'CT3A'
 /**/
