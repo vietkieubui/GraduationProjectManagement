@@ -98,4 +98,6 @@ create table Students(
 SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = 'CT3A'
 SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.name = 'CT3'
 SELECT DISTINCT Courses.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = 'CT3A'
+SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Majors.id = '1'
+SELECT DISTINCT Majors.name FROM  Courses, Majors WHERE Majors.id = Courses.majors and Courses.name = 'CT2'
 /**/
