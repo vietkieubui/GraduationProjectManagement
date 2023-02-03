@@ -83,6 +83,11 @@ ALTER TABLE Teachers ADD UNIQUE(phonenumber, email)
 SELECT * FROM Teachers
 SELECT Teachers.id, Teachers.name, Teachers.academicRank, Majors.name as majors, Teachers.phonenumber, Teachers.email FROM Teachers, Majors WHERE Teachers.majors = Majors.id ORDER BY Teachers.name
 
+SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = 'CT3A'
+SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.name = 'CT3'
+SELECT DISTINCT Courses.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = 'CT3A'
+SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Majors.id = '1'
+SELECT DISTINCT Majors.name FROM  Courses, Majors WHERE Majors.id = Courses.majors and Courses.name = 'CT2'
 
 create table Students(
 	id VARCHAR(12) PRIMARY KEY,
@@ -93,11 +98,4 @@ create table Students(
 	phonenumber VARCHAR(20) NOT NULL UNIQUE,
 	email VARCHAR(100) NOT NULL UNIQUE,
 )
-
-
-SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = 'CT3A'
-SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.name = 'CT3'
-SELECT DISTINCT Courses.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = 'CT3A'
-SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Majors.id = '1'
-SELECT DISTINCT Majors.name FROM  Courses, Majors WHERE Majors.id = Courses.majors and Courses.name = 'CT2'
 /**/

@@ -20,6 +20,8 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -30,6 +32,12 @@ import javax.swing.table.DefaultTableModel;
  * @author BVKieu
  */
 public final class Helpers {
+
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+
+    private static final String PHONE_REGEX = "^\\d{10}$";
+    private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
 
     public static void addActionListener(JButton btn, ActionListener al) {
         btn.addActionListener(al);
@@ -169,11 +177,11 @@ public final class Helpers {
 //        }else if(!className.equals("") && !courseName.equals("")){
 //            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Course.name = " + toSQLString(courseName, true) + " and Classes.name = " + toSQLString(className, true);
 //        }
-        
+
         String[] listMajors = null;
         ArrayList<String> list = new ArrayList<String>();
         list.add("--Chọn khoa--");
-        
+
         try {
             Statement stm = ConnectDatabase.cnn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -211,20 +219,20 @@ public final class Helpers {
         courseList = list.toArray(new String[list.size()]);
         return courseList;
     }
-    
+
     public static String[] getClassList(String majorsName, String courseName) {
         String sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
         if (!majorsName.equals("") && courseName.equals("")) {
             String majorsId = getMajorsId(majorsName);
             sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Majors.id = " + toSQLString(majorsId);
-        }else if(majorsName.equals("") && !courseName.equals("")){
+        } else if (majorsName.equals("") && !courseName.equals("")) {
             String courseId = getCourseId(courseName);
             sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.id = " + toSQLString(courseId);
-        }else if(!majorsName.equals("") && !courseName.equals("")){
+        } else if (!majorsName.equals("") && !courseName.equals("")) {
             String courseId = getCourseId(courseName);
             String majorsId = getMajorsId(majorsName);
             sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors "
-                    + "and Courses.id = " + toSQLString(courseId) + " and Majors.id = " + toSQLString(majorsId);            
+                    + "and Courses.id = " + toSQLString(courseId) + " and Majors.id = " + toSQLString(majorsId);
         }
         String[] courseList = null;
         ArrayList<String> list = new ArrayList<String>();
@@ -243,15 +251,15 @@ public final class Helpers {
         courseList = list.toArray(new String[list.size()]);
         return courseList;
     }
-    
-    public static String setSelectedMajors(String className, String courseName){
+
+    public static String setSelectedMajors(String className, String courseName) {
         String majors = "";
         String sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
-        if(!className.equals("") && courseName.equals("")){
+        if (!className.equals("") && courseName.equals("")) {
             sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className);
-        }else if(className.equals("") && !courseName.equals("")){
+        } else if (className.equals("") && !courseName.equals("")) {
             sql = "SELECT DISTINCT Majors.name FROM Courses, Majors WHERE Majors.id = Courses.majors and Courses.name = " + toSQLString(courseName);
-        }else if(!className.equals("") && !courseName.equals("")){
+        } else if (!className.equals("") && !courseName.equals("")) {
             sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.name = " + toSQLString(courseName) + " and Classes.name = " + toSQLString(className);
         }
         try {
@@ -266,11 +274,11 @@ public final class Helpers {
         }
         return majors;
     }
-    
-    public static String setSelectedCourses(String className){
+
+    public static String setSelectedCourses(String className) {
         String course = "";
         String sql = "SELECT DISTINCT Courses.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
-        if(!className.equals("")){
+        if (!className.equals("")) {
             sql = "SELECT DISTINCT Courses.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className);
         }
         try {
@@ -341,7 +349,7 @@ public final class Helpers {
             Statement stm = cnn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                schoolYearTable.addRow(new Object[]{rs.getString("name")});
+                schoolYearTable.addRow(new Object[]{rs.getString("id"), rs.getString("name")});
             }
         } catch (SQLException ex) {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
@@ -404,5 +412,15 @@ public final class Helpers {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public static boolean isValidEmail(String email) {
+        Matcher matcher = EMAIL_PATTERN.matcher(email);
+        return matcher.matches();
+    }
+
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        Matcher matcher = PHONE_PATTERN.matcher(phoneNumber);
+        return matcher.matches();
     }
 }

@@ -38,9 +38,14 @@ public class AddTeacherController {
             public void actionPerformed(ActionEvent e) {
                 if (addTeacherForm.majorsComboBox.getSelectedIndex() == 0) {
                     Helpers.showMess("Bạn chưa chọn khoa!");
-                } else {
-                    TeacherModel teacher = new TeacherModel(addTeacherForm.teacherNameText.getText(),
-                            addTeacherForm.teacherAcademicRank.getText(), addTeacherForm.majorsComboBox.getSelectedItem().toString(), addTeacherForm.teacherPhoneNumberText.getText(), addTeacherForm.teacherEmailText.getText());
+                }else if(!Helpers.isValidPhoneNumber(addTeacherForm.phonenumberText.getText())){
+                    Helpers.showMess("Số điện thoại không hợp lệ!");
+                }else if(!Helpers.isValidEmail(addTeacherForm.phonenumberText.getText())){
+                    Helpers.showMess("Email không hợp lệ!");
+                }
+                else {
+                    TeacherModel teacher = new TeacherModel(addTeacherForm.nameText.getText(),
+                            addTeacherForm.academicRank.getText(), addTeacherForm.majorsComboBox.getSelectedItem().toString(), addTeacherForm.phonenumberText.getText(), addTeacherForm.emailText.getText());
                     String majorsId = Helpers.getMajorsId(teacher.majors);
                     Statement stm = null;
                     ResultSet rs = null;

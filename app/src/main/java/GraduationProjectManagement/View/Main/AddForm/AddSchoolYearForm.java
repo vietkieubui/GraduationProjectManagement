@@ -23,6 +23,7 @@ public class AddSchoolYearForm extends javax.swing.JFrame {
         Position position = new Position(this);
         setLocation(position.getX(), position.getY());
         setVisible(true);
+        setResizable(false);
     }
 
     /**

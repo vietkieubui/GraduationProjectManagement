@@ -34,10 +34,10 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="teacherAcademicRank" max="32767" attributes="0"/>
-                  <Component id="teacherPhoneNumberText" pref="146" max="32767" attributes="0"/>
-                  <Component id="teacherNameText" pref="146" max="32767" attributes="0"/>
-                  <Component id="teacherEmailText" pref="146" max="32767" attributes="0"/>
+                  <Component id="academicRank" max="32767" attributes="0"/>
+                  <Component id="phonenumberText" pref="146" max="32767" attributes="0"/>
+                  <Component id="nameText" pref="146" max="32767" attributes="0"/>
+                  <Component id="emailText" pref="146" max="32767" attributes="0"/>
                   <Component id="majorsComboBox" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="84" max="32767" attributes="0"/>
@@ -51,12 +51,12 @@
               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="teacherNameText" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nameText" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="teacherAcademicRank" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="academicRank" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -66,12 +66,12 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="teacherPhoneNumberText" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="phonenumberText" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="teacherEmailText" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="emailText" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
@@ -107,12 +107,12 @@
         <Property name="text" type="java.lang.String" value="H&#x1ecd; v&#xe0; t&#xea;n"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="teacherNameText">
+    <Component class="javax.swing.JTextField" name="nameText">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="teacherEmailText">
+    <Component class="javax.swing.JTextField" name="emailText">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
@@ -146,7 +146,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="teacherPhoneNumberText">
+    <Component class="javax.swing.JTextField" name="phonenumberText">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
@@ -156,7 +156,7 @@
         <Property name="text" type="java.lang.String" value="S&#x110;T"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="teacherAcademicRank">
+    <Component class="javax.swing.JTextField" name="academicRank">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>

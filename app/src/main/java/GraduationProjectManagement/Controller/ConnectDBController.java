@@ -34,7 +34,7 @@ public class ConnectDBController {
                 String username = view.usernameText.getText();
                 String password = view.passwordText.getText();
                 var connectDB = new ConnectDatabase();
-                connectDB.connectDatabase(ipAddress, username, password);                
+                connectDB.connectDatabase(ipAddress, username, password);
                 view.dispose();
                 AuthController auth_Controller = new AuthController();
 
