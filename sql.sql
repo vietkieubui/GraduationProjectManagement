@@ -1,4 +1,4 @@
- -- create database GraduationProjectManagement;
+﻿ -- create database GraduationProjectManagement;
  use GraduationProjectManagement;
 
  create table Users(
@@ -22,6 +22,8 @@ create table SchoolYears(
 	name VARCHAR(20) NOT NULL,
 )
 ALTER TABLE SchoolYears ADD UNIQUE(name);
+
+UPDATE SchoolYears SET name='2020 - 2021' WHERE id='3'
 
 /*
 SELECT * FROM SchoolYears
@@ -92,10 +94,16 @@ SELECT DISTINCT Majors.name FROM  Courses, Majors WHERE Majors.id = Courses.majo
 create table Students(
 	id VARCHAR(12) PRIMARY KEY,
 	name NVARCHAR(100) NOT NULL,
-	gender VARCHAR (10) NOT NULL,
+	gender NVARCHAR (10) NOT NULL,
 	birthday VARCHAR(100) NOT NULL,
 	class int FOREIGN KEY REFERENCES Classes(id),
 	phonenumber VARCHAR(20) NOT NULL UNIQUE,
 	email VARCHAR(100) NOT NULL UNIQUE,
 )
+
+SELECT * FROM Students
+SELECT Students.id, Students.name, Students.gender, Students.birthday, Classes.name as class, Students.phonenumber, Students.email FROM Students, Classes WHERE Students.class = Classes.id 
+GROUP BY Classes.name, Students.id, Students.name, Students.gender, Students.birthday,Students.phonenumber, Students.email
+ORDER BY  Classes.name, Students.id
+INSERT INTO Students(id,name,gender,birthday,class,phonenumber,email)VALUES('CT030401',N'Bùi Thị B',N'Nữ','29-02-2000','10','0128679646','bbt@gmail.com')
 /**/

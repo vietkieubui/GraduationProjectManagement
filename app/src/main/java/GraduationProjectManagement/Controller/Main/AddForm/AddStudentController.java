@@ -98,20 +98,28 @@ public class AddStudentController {
                         || addStudentForm.idText.getText().equals("")
                         || addStudentForm.emailText.getText().equals("")
                         || addStudentForm.nameText.getText().equals("")) {
-
+                    Helpers.showMess("Bạn phải điền đầy đủ thông tin!");
+                } else {
                     if (!Helpers.isValidPhoneNumber(addStudentForm.phonenumberText.getText())) {
                         Helpers.showMess("Số điện thoại không hợp lệ!");
-                    } else if (!Helpers.isValidEmail(addStudentForm.phonenumberText.getText())) {
+                    } else if (!Helpers.isValidEmail(addStudentForm.emailText.getText())) {
                         Helpers.showMess("Email không hợp lệ!");
                     }
                     StudentModel student = new StudentModel(addStudentForm.idText.getText(), addStudentForm.nameText.getText(),
                             addStudentForm.genderComboBox.getSelectedItem().toString(), sdf.format(addStudentForm.birthday.getDate()),
                             addStudentForm.classComboBox.getSelectedItem().toString(), addStudentForm.phonenumberText.getText(),
                             addStudentForm.emailText.getText());
-
-                    Helpers.showMess("Bạn phải điền đầy đủ thông tin!");
-                } else {
-                    System.out.println(sdf.format(addStudentForm.birthday.getDate()).equals(""));
+                    student.classId = Helpers.getClassId(student.classId);
+                    String[] columnsName = {"id", "name", "gender", "birthday", "class", "phonenumber", "email"};
+                    String[] values = {Helpers.toSQLString(student.id), Helpers.toSQLString(student.name, true),
+                        Helpers.toSQLString(student.gender, true), Helpers.toSQLString(student.birthday, false),
+                        Helpers.toSQLString(student.classId), Helpers.toSQLString(student.phonenumber),
+                        Helpers.toSQLString(student.email)};
+                    if (Helpers.insertIntoDatabase("Students", columnsName, values)) {
+                        Helpers.showMess("Thêm thành công!");
+                        Helpers.getStudent(table);
+                        addStudentForm.dispose();
+                    }
                 }
 
             }

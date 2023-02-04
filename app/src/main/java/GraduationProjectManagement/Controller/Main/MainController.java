@@ -10,6 +10,8 @@ import GraduationProjectManagement.Controller.Main.AddForm.AddMajorsController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddSchoolYearController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddStudentController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddTeacherController;
+import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateSchoolYearController;
+import GraduationProjectManagement.Model.SchoolYearModel;
 import GraduationProjectManagement.Utils.Helpers;
 import GraduationProjectManagement.View.Main.*;
 import java.awt.BorderLayout;
@@ -75,17 +77,18 @@ public final class MainController {
                 currentPanel = projectManagementPanel;
             }
         });
-        
+
         Helpers.addActionListener(mainView.studentButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Helpers.getStudent(studentTable);
                 currentPanel.setVisible(false);
                 mainView.mainPanel.add(studentManagementPanel);
                 studentManagementPanel.setVisible(true);
                 currentPanel = studentManagementPanel;
             }
         });
-        
+
         Helpers.addActionListener(mainView.teacherButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -96,7 +99,7 @@ public final class MainController {
                 currentPanel = teacherManagementPanel;
             }
         });
-        
+
         Helpers.addActionListener(mainView.classButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -141,8 +144,8 @@ public final class MainController {
             }
         });
     }
-    
-    public void studentPanelActionListener(){
+
+    public void studentPanelActionListener() {
         Helpers.addActionListener(studentManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -195,9 +198,16 @@ public final class MainController {
                 new AddSchoolYearController(schoolYearTable);
             }
         });
+        Helpers.addActionListener(schoolYearManagementPanel.updateButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int updateRow = schoolYearManagementPanel.schoolYearTable.getSelectedRow();
+                SchoolYearModel schoolYearModel = new SchoolYearModel((String) schoolYearTable.getValueAt(updateRow, 1));
+                schoolYearModel.id = (String) schoolYearTable.getValueAt(updateRow, 0);
+                new UpdateSchoolYearController(schoolYearTable, schoolYearModel);
+            }
+        });
     }
-    
-    
 
     public void setupTable() {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();

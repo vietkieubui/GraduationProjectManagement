@@ -40,8 +40,6 @@ public class AddCourseController {
                 } else {
                     CourseModel course = new CourseModel(addCourseForm.courseNameText.getText(), addCourseForm.courseDescriptionText.getText(), addCourseForm.studyTimeText.getText(), addCourseForm.majorsComboBox.getSelectedItem().toString());
                     String majorsId = Helpers.getMajorsId(course.majors);
-                    Statement stm = null;
-                    ResultSet rs = null;
                     String[] columnsName = {"name", "description", "studyTime", "majors"};
                     String[] values = {Helpers.toSQLString(course.name, true), Helpers.toSQLString(course.description, true), Helpers.toSQLString(course.studyTime), Helpers.toSQLString(majorsId)};
                     if (Helpers.insertIntoDatabase("Courses", columnsName, values)) {

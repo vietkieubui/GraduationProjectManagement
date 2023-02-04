@@ -40,7 +40,7 @@ public class AddTeacherController {
                     Helpers.showMess("Bạn chưa chọn khoa!");
                 }else if(!Helpers.isValidPhoneNumber(addTeacherForm.phonenumberText.getText())){
                     Helpers.showMess("Số điện thoại không hợp lệ!");
-                }else if(!Helpers.isValidEmail(addTeacherForm.phonenumberText.getText())){
+                }else if(!Helpers.isValidEmail(addTeacherForm.emailText.getText())){
                     Helpers.showMess("Email không hợp lệ!");
                 }
                 else {

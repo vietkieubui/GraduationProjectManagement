@@ -43,11 +43,11 @@ public class ClassManagementPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Tên lớp", "Khóa", "Ngành", "Thời gian học", "Mô tả"
+                "ID", "Tên lớp", "Khóa", "Ngành", "Thời gian học", "Mô tả"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -61,6 +61,7 @@ public class ClassManagementPanel extends javax.swing.JPanel {
             classTable.getColumnModel().getColumn(2).setResizable(false);
             classTable.getColumnModel().getColumn(3).setResizable(false);
             classTable.getColumnModel().getColumn(4).setResizable(false);
+            classTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

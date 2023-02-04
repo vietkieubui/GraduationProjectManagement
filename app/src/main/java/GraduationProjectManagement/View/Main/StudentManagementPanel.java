@@ -46,7 +46,7 @@ public class StudentManagementPanel extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã SV", "Tên SV", "Ngày sinh", "Lớp", "Giới tính", "SĐT", "Email"
+                "Mã SV", "Tên SV", "Giới tính", "Ngày sinh", "Lớp", "SĐT", "Email"
             }
         ) {
             boolean[] canEdit = new boolean [] {

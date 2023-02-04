@@ -121,6 +121,28 @@ public final class Helpers {
         }
     }
 
+    public static boolean updateData(String tableName, String[] columnsName, String[] values, String condition) {
+        String valuesString = "";
+        int length = columnsName.length;
+        for (int i = 0; i < length; i++) {
+            valuesString = valuesString + columnsName[i] +"="+values[i];
+            if (i + 1 < columnsName.length) {
+                valuesString += ",";
+            }
+        }
+
+        String sql = "UPDATE " + tableName + " SET " + valuesString + " WHERE " + condition;
+        try {
+            Statement stm = cnn.createStatement();
+            stm.executeUpdate(sql);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            showMess(ex.toString());
+            return false;
+        }
+    }
+
     public static boolean checkExist(String tableName, String column, String value) {
         boolean flag = false;
         String sql = "SELECT * FROM " + tableName + " where " + column + " = " + toSQLString(value);
@@ -169,7 +191,7 @@ public final class Helpers {
      * get ComboBox data
      */
     public static String[] getMajorsList() {
-        String sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
+        String sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors ORDER BY Courses.name";
 //        if(!className.equals("") && courseName.equals("")){
 //            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className, true);
 //        }else if(className.equals("") && !courseName.equals("")){
@@ -197,10 +219,10 @@ public final class Helpers {
     }
 
     public static String[] getCourseList(String majorsName) {
-        String sql = "SELECT*FROM Courses";
+        String sql = "SELECT*FROM Courses ORDER BY Courses.name";
         if (!majorsName.equals("")) {
             String majorsId = getMajorsId(majorsName);
-            sql = "SELECT * FROM Courses WHERE majors = " + toSQLString(majorsId);
+            sql = "SELECT * FROM Courses WHERE majors = " + toSQLString(majorsId) + " ORDER BY Courses.name";
         }
         String[] courseList = null;
         ArrayList<String> list = new ArrayList<String>();
@@ -221,18 +243,18 @@ public final class Helpers {
     }
 
     public static String[] getClassList(String majorsName, String courseName) {
-        String sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
+        String sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors ORDER BY Classes.name";
         if (!majorsName.equals("") && courseName.equals("")) {
             String majorsId = getMajorsId(majorsName);
-            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Majors.id = " + toSQLString(majorsId);
+            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Majors.id = " + toSQLString(majorsId) + " ORDER BY Classes.name";
         } else if (majorsName.equals("") && !courseName.equals("")) {
             String courseId = getCourseId(courseName);
-            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.id = " + toSQLString(courseId);
+            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.id = " + toSQLString(courseId) + " ORDER BY Classes.name";
         } else if (!majorsName.equals("") && !courseName.equals("")) {
             String courseId = getCourseId(courseName);
             String majorsId = getMajorsId(majorsName);
             sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors "
-                    + "and Courses.id = " + toSQLString(courseId) + " and Majors.id = " + toSQLString(majorsId);
+                    + "and Courses.id = " + toSQLString(courseId) + " and Majors.id = " + toSQLString(majorsId) + " ORDER BY Classes.name";
         }
         String[] courseList = null;
         ArrayList<String> list = new ArrayList<String>();
@@ -338,9 +360,29 @@ public final class Helpers {
         return majorsId;
     }
 
+    public static String getClassId(String name) {
+        String classId = "";
+        String getClassIdSQL = "SELECT * FROM Classes";
+        Statement stm = null;
+        ResultSet rs = null;
+        try {
+            stm = ConnectDatabase.cnn.createStatement();
+            rs = stm.executeQuery(getClassIdSQL);
+            while (rs.next()) {
+                if (rs.getString("name").equals(name)) {
+                    classId = rs.getString("id");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+            Helpers.showMess("SQL Error!");
+        }
+        return classId;
+    }
+
     /**
      *
-     * get table data
+     * @get table data
      */
     public static void getSchoolYears(DefaultTableModel schoolYearTable) {
         schoolYearTable.setRowCount(0);
@@ -377,7 +419,7 @@ public final class Helpers {
             Statement stm = cnn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                courseTable.addRow(new Object[]{rs.getString("name"), rs.getString("majors"), rs.getString("description"), rs.getString("studyTime")});
+                courseTable.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getString("majors"), rs.getString("description"), rs.getString("studyTime")});
             }
         } catch (Exception ex) {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
@@ -391,7 +433,7 @@ public final class Helpers {
             Statement stm = cnn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                classTable.addRow(new Object[]{rs.getString("name"), rs.getString("course"), rs.getString("majors"), rs.getString("studyTime"), rs.getString("description")});
+                classTable.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getString("course"), rs.getString("majors"), rs.getString("studyTime"), rs.getString("description")});
             }
         } catch (Exception ex) {
             Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
@@ -414,6 +456,27 @@ public final class Helpers {
 
     }
 
+    public static void getStudent(DefaultTableModel studentTable) {
+        studentTable.setRowCount(0);
+        String sql = "SELECT Students.id, Students.name, Students.gender, Students.birthday, Classes.name as class, Students.phonenumber, Students.email FROM Students, Classes WHERE Students.class = Classes.id \n"
+                + "GROUP BY Classes.name, Students.id, Students.name, Students.gender, Students.birthday,Students.phonenumber, Students.email\n"
+                + "ORDER BY  Classes.name, Students.id";
+        try {
+            Statement stm = cnn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                studentTable.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getString("gender"), rs.getString("birthday"), rs.getString("class"), rs.getString("phonenumber"), rs.getString("email")});
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    /**
+     *
+     * validate form
+     */
     public static boolean isValidEmail(String email) {
         Matcher matcher = EMAIL_PATTERN.matcher(email);
         return matcher.matches();

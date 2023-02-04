@@ -40,17 +40,17 @@ public class CourseManagementPanel extends javax.swing.JPanel {
 
         courseTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Tên khóa", "Ngành", "Mô tả", "Thời gian học"
+                "ID", "Tên khóa", "Ngành", "Mô tả", "Thời gian học"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -63,6 +63,7 @@ public class CourseManagementPanel extends javax.swing.JPanel {
             courseTable.getColumnModel().getColumn(1).setResizable(false);
             courseTable.getColumnModel().getColumn(2).setResizable(false);
             courseTable.getColumnModel().getColumn(3).setResizable(false);
+            courseTable.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
