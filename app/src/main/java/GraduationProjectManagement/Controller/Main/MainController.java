@@ -10,8 +10,16 @@ import GraduationProjectManagement.Controller.Main.AddForm.AddMajorsController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddSchoolYearController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddStudentController;
 import GraduationProjectManagement.Controller.Main.AddForm.AddTeacherController;
+import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateClassController;
+import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateCourseController;
+import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateMajorsController;
 import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateSchoolYearController;
+import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateTeacherController;
+import GraduationProjectManagement.Model.ClassModel;
+import GraduationProjectManagement.Model.CourseModel;
+import GraduationProjectManagement.Model.MajorsModel;
 import GraduationProjectManagement.Model.SchoolYearModel;
+import GraduationProjectManagement.Model.TeacherModel;
 import GraduationProjectManagement.Utils.Helpers;
 import GraduationProjectManagement.View.Main.*;
 import java.awt.BorderLayout;
@@ -161,6 +169,27 @@ public final class MainController {
                 new AddTeacherController(teacherTable);
             }
         });
+        Helpers.addActionListener(teacherManagementPanel.updateButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int updateRow = teacherManagementPanel.teacherTable.getSelectedRow();
+                    TeacherModel teacherModel = new TeacherModel(
+                            (String) teacherTable.getValueAt(updateRow, 1),
+                            (String) teacherTable.getValueAt(updateRow, 2),
+                            (String) teacherTable.getValueAt(updateRow, 3),
+                            (String) teacherTable.getValueAt(updateRow, 4),
+                            (String) teacherTable.getValueAt(updateRow, 5)
+                    );
+                    
+                    teacherModel.id = (String) teacherTable.getValueAt(updateRow, 0);
+                    new UpdateTeacherController(teacherTable, teacherModel);
+                } catch (Exception ex) {
+                    System.out.println(ex.toString());
+                    Helpers.showMess("Bạn phải chọn 1 hàng!");
+                }
+            }
+        });
     }
 
     public void classPanelActionListener() {
@@ -170,6 +199,24 @@ public final class MainController {
                 new AddClassController(classTable);
             }
         });
+        Helpers.addActionListener(classManagementPanel.updateButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int updateRow = classManagementPanel.classTable.getSelectedRow();
+                    ClassModel classModel = new ClassModel(
+                            (String) classTable.getValueAt(updateRow, 1),
+                            (String) classTable.getValueAt(updateRow, 5),
+                            (String) classTable.getValueAt(updateRow, 2)
+                    );
+                    classModel.id = (String) classTable.getValueAt(updateRow, 0);
+                    new UpdateClassController(classTable, classModel);
+                } catch (Exception ex) {
+                    System.out.println(ex.toString());
+                    Helpers.showMess("Bạn phải chọn 1 hàng!");
+                }
+            }
+        });
     }
 
     public void coursePanelActionListener() {
@@ -177,6 +224,26 @@ public final class MainController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddCourseController(courseTable);
+            }
+        });
+        Helpers.addActionListener(courseManagementPanel.updateButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int updateRow = courseManagementPanel.courseTable.getSelectedRow();
+                    CourseModel courseModel = new CourseModel(
+                            (String) courseTable.getValueAt(updateRow, 1),
+                            (String) courseTable.getValueAt(updateRow, 3),
+                            (String) courseTable.getValueAt(updateRow, 4),
+                            (String) courseTable.getValueAt(updateRow, 2)
+                    );
+                    courseModel.id = (String) courseTable.getValueAt(updateRow, 0);
+                    new UpdateCourseController(courseTable, courseModel);
+                } catch (Exception ex) {
+                    System.out.println(ex.toString());
+                    Helpers.showMess("Bạn phải chọn 1 hàng!");
+                }
+
             }
         });
 
@@ -189,6 +256,23 @@ public final class MainController {
                 new AddMajorsController(majorsTable);
             }
         });
+        Helpers.addActionListener(majorsManagementPanel.updateButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int updateRow = majorsManagementPanel.majorsTable.getSelectedRow();
+                    MajorsModel majorsModel = new MajorsModel(
+                            (String) majorsTable.getValueAt(updateRow, 0),
+                            (String) majorsTable.getValueAt(updateRow, 1),
+                            (String) majorsTable.getValueAt(updateRow, 2));
+                    new UpdateMajorsController(majorsTable, majorsModel);
+                } catch (Exception ex) {
+                    System.out.println(ex.toString());
+                    Helpers.showMess("Bạn phải chọn 1 hàng!");
+                }
+            }
+        });
+
     }
 
     public void schoolYearPanelActionListener() {
@@ -201,10 +285,16 @@ public final class MainController {
         Helpers.addActionListener(schoolYearManagementPanel.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int updateRow = schoolYearManagementPanel.schoolYearTable.getSelectedRow();
-                SchoolYearModel schoolYearModel = new SchoolYearModel((String) schoolYearTable.getValueAt(updateRow, 1));
-                schoolYearModel.id = (String) schoolYearTable.getValueAt(updateRow, 0);
-                new UpdateSchoolYearController(schoolYearTable, schoolYearModel);
+                try {
+                    int updateRow = schoolYearManagementPanel.schoolYearTable.getSelectedRow();
+                    SchoolYearModel schoolYearModel = new SchoolYearModel((String) schoolYearTable.getValueAt(updateRow, 1));
+                    schoolYearModel.id = (String) schoolYearTable.getValueAt(updateRow, 0);
+                    new UpdateSchoolYearController(schoolYearTable, schoolYearModel);
+                } catch (Exception ex) {
+                    System.out.println(ex.toString());
+                    Helpers.showMess("Bạn phải chọn 1 hàng!");
+                }
+
             }
         });
     }

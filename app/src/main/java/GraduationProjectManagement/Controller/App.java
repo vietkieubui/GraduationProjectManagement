@@ -3,15 +3,17 @@
  */
 package GraduationProjectManagement.Controller;
 
+import GraduationProjectManagement.Controller.Main.MainController;
+import GraduationProjectManagement.Utils.ConnectDatabase;
 
 public class App {
 
     public static void main(String[] args) {
 //        new Auth_Controller();
-          new ConnectDBController();
-//        ConnectDBController loginDB_Controller = new ConnectDBController();
+//          new ConnectDBController();
+        var connectDB = new ConnectDatabase();
+        connectDB.connectDatabase("192.168.30.103", "sa", "123");
+        new MainController();
 
-//        Connection cnn = ConnectDB.getConnectDB();
-//        System.out.println(new App().getGreeting());
     }
 }

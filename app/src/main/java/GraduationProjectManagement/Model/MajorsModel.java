@@ -9,7 +9,6 @@ package GraduationProjectManagement.Model;
  * @author BVKieu
  */
 public class MajorsModel {
-    public String id;
     public String majorsId;
     public String name;    
     public String description;

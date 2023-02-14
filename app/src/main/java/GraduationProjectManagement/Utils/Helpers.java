@@ -125,13 +125,14 @@ public final class Helpers {
         String valuesString = "";
         int length = columnsName.length;
         for (int i = 0; i < length; i++) {
-            valuesString = valuesString + columnsName[i] +"="+values[i];
+            valuesString = valuesString + columnsName[i] + "=" + values[i];
             if (i + 1 < columnsName.length) {
                 valuesString += ",";
             }
         }
 
         String sql = "UPDATE " + tableName + " SET " + valuesString + " WHERE " + condition;
+        System.out.println(sql);
         try {
             Statement stm = cnn.createStatement();
             stm.executeUpdate(sql);
@@ -191,14 +192,8 @@ public final class Helpers {
      * get ComboBox data
      */
     public static String[] getMajorsList() {
-        String sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors ORDER BY Courses.name";
-//        if(!className.equals("") && courseName.equals("")){
-//            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className, true);
-//        }else if(className.equals("") && !courseName.equals("")){
-//            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Course.name = " + toSQLString(courseName, true);
-//        }else if(!className.equals("") && !courseName.equals("")){
-//            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Course.name = " + toSQLString(courseName, true) + " and Classes.name = " + toSQLString(className, true);
-//        }
+        String sql = "SELECT DISTINCT Majors.name FROM Majors "
+                + "ORDER BY Majors.name";
 
         String[] listMajors = null;
         ArrayList<String> list = new ArrayList<String>();
@@ -219,10 +214,12 @@ public final class Helpers {
     }
 
     public static String[] getCourseList(String majorsName) {
-        String sql = "SELECT*FROM Courses ORDER BY Courses.name";
+        String sql = "SELECT*FROM Courses "
+                + "ORDER BY Courses.name";
         if (!majorsName.equals("")) {
             String majorsId = getMajorsId(majorsName);
-            sql = "SELECT * FROM Courses WHERE majors = " + toSQLString(majorsId) + " ORDER BY Courses.name";
+            sql = "SELECT * FROM Courses "
+                    + "WHERE majors = " + toSQLString(majorsId) + " ORDER BY Courses.name";
         }
         String[] courseList = null;
         ArrayList<String> list = new ArrayList<String>();
@@ -243,18 +240,26 @@ public final class Helpers {
     }
 
     public static String[] getClassList(String majorsName, String courseName) {
-        String sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors ORDER BY Classes.name";
+        String sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors "
+                + "WHERE Courses.id = Classes.course and Majors.id = Courses.majors "
+                + "ORDER BY Classes.name";
         if (!majorsName.equals("") && courseName.equals("")) {
             String majorsId = getMajorsId(majorsName);
-            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Majors.id = " + toSQLString(majorsId) + " ORDER BY Classes.name";
+            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors "
+                    + "WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Majors.id = " + toSQLString(majorsId) + " "
+                    + "ORDER BY Classes.name";
         } else if (majorsName.equals("") && !courseName.equals("")) {
             String courseId = getCourseId(courseName);
-            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.id = " + toSQLString(courseId) + " ORDER BY Classes.name";
+            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors "
+                    + "WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.id = " + toSQLString(courseId) + " "
+                    + "ORDER BY Classes.name";
         } else if (!majorsName.equals("") && !courseName.equals("")) {
             String courseId = getCourseId(courseName);
             String majorsId = getMajorsId(majorsName);
-            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors "
-                    + "and Courses.id = " + toSQLString(courseId) + " and Majors.id = " + toSQLString(majorsId) + " ORDER BY Classes.name";
+            sql = "SELECT DISTINCT Classes.name FROM Classes, Courses, Majors "
+                    + "WHERE Courses.id = Classes.course and Majors.id = Courses.majors "
+                    + "and Courses.id = " + toSQLString(courseId) + " and Majors.id = " + toSQLString(majorsId) + " "
+                    + "ORDER BY Classes.name";
         }
         String[] courseList = null;
         ArrayList<String> list = new ArrayList<String>();
@@ -276,13 +281,17 @@ public final class Helpers {
 
     public static String setSelectedMajors(String className, String courseName) {
         String majors = "";
-        String sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
+        String sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors "
+                + "WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
         if (!className.equals("") && courseName.equals("")) {
-            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className);
+            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors "
+                    + "WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className);
         } else if (className.equals("") && !courseName.equals("")) {
-            sql = "SELECT DISTINCT Majors.name FROM Courses, Majors WHERE Majors.id = Courses.majors and Courses.name = " + toSQLString(courseName);
+            sql = "SELECT DISTINCT Majors.name FROM Courses, Majors "
+                    + "WHERE Majors.id = Courses.majors and Courses.name = " + toSQLString(courseName);
         } else if (!className.equals("") && !courseName.equals("")) {
-            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.name = " + toSQLString(courseName) + " and Classes.name = " + toSQLString(className);
+            sql = "SELECT DISTINCT Majors.name FROM Classes, Courses, Majors "
+                    + "WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Courses.name = " + toSQLString(courseName) + " and Classes.name = " + toSQLString(className);
         }
         try {
             Statement stm = ConnectDatabase.cnn.createStatement();
@@ -299,9 +308,13 @@ public final class Helpers {
 
     public static String setSelectedCourses(String className) {
         String course = "";
-        String sql = "SELECT DISTINCT Courses.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors";
+        String sql = "SELECT DISTINCT Courses.name FROM Classes, Courses, Majors "
+                + "WHERE Courses.id = Classes.course and Majors.id = Courses.majors "
+                + "ORDER BY Courses.name";
         if (!className.equals("")) {
-            sql = "SELECT DISTINCT Courses.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className);
+            sql = "SELECT DISTINCT Courses.name FROM Classes, Courses, Majors "
+                    + "WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = " + toSQLString(className) + " "
+                    + "ORDER BY Courses.name";
         }
         try {
             Statement stm = ConnectDatabase.cnn.createStatement();

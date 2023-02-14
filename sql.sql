@@ -83,6 +83,7 @@ create table Teachers(
 
 ALTER TABLE Teachers ADD UNIQUE(phonenumber, email)
 SELECT * FROM Teachers
+
 SELECT Teachers.id, Teachers.name, Teachers.academicRank, Majors.name as majors, Teachers.phonenumber, Teachers.email FROM Teachers, Majors WHERE Teachers.majors = Majors.id ORDER BY Teachers.name
 
 SELECT DISTINCT Majors.name FROM Classes, Courses, Majors WHERE Courses.id = Classes.course and Majors.id = Courses.majors and Classes.name = 'CT3A'
@@ -106,4 +107,7 @@ SELECT Students.id, Students.name, Students.gender, Students.birthday, Classes.n
 GROUP BY Classes.name, Students.id, Students.name, Students.gender, Students.birthday,Students.phonenumber, Students.email
 ORDER BY  Classes.name, Students.id
 INSERT INTO Students(id,name,gender,birthday,class,phonenumber,email)VALUES('CT030401',N'Bùi Thị B',N'Nữ','29-02-2000','10','0128679646','bbt@gmail.com')
+
+SELECT DISTINCT Majors.name FROM Majors 
+                ORDER BY Majors.name
 /**/

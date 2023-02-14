@@ -29,10 +29,10 @@ public final class UpdateSchoolYearController {
         this.schoolYearModel = schoolYearModel;
         updateSchoolYearForm = new UpdateSchoolYearForm();
         updateSchoolYearForm.idText.setText(schoolYearModel.id);
-        addFormButtonController();
+        updateFormButtonController();
     }
 
-    void addFormButtonController() {
+    void updateFormButtonController() {
         Helpers.addActionListener(updateSchoolYearForm.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
