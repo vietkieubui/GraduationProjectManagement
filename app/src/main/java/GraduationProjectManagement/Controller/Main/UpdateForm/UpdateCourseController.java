@@ -5,7 +5,7 @@
 package GraduationProjectManagement.Controller.Main.UpdateForm;
 
 import GraduationProjectManagement.Model.CourseModel;
-import GraduationProjectManagement.Utils.Helpers;
+import GraduationProjectManagement.Services.Services;
 import GraduationProjectManagement.View.Main.UpdateForm.UpdateCourseForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,20 +30,20 @@ public class UpdateCourseController {
         updateCourseForm.nameText.setText(courseModel.name);
         updateCourseForm.studyTimeText.setText(courseModel.studyTime);
         updateCourseForm.descriptionText.setText(courseModel.description);
-        String[] listMajors = Helpers.getMajorsList();
+        String[] listMajors = Services.getMajorsList();
         updateCourseForm.majorsComboBox.setModel(new DefaultComboBoxModel<>(listMajors));
         updateCourseForm.majorsComboBox.setSelectedItem(courseModel.majors);
         updateFormButtonController();
     }
 
     private void updateFormButtonController() {
-        Helpers.addActionListener(updateCourseForm.updateButton, new ActionListener() {
+        Services.addActionListener(updateCourseForm.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (updateCourseForm.majorsComboBox.getSelectedIndex() == 0) {
-                    Helpers.showMess("Bạn chưa chọn khoa!");
+                    Services.showMess("Bạn chưa chọn khoa!");
                 } else {
-                    String majorsId = Helpers.getMajorsId(updateCourseForm.majorsComboBox.getSelectedItem().toString());
+                    String majorsId = Services.getMajorsId(updateCourseForm.majorsComboBox.getSelectedItem().toString());
                     CourseModel course = new CourseModel(
                             updateCourseForm.nameText.getText(),
                             updateCourseForm.descriptionText.getText(),
@@ -53,25 +53,25 @@ public class UpdateCourseController {
                     course.id = updateCourseForm.idText.getText();
                     String[] columnsName = {"name", "description", "studyTime", "majors"};
                     String[] values = {
-                        Helpers.toSQLString(course.name, true),
-                        Helpers.toSQLString(course.description, true),
-                        Helpers.toSQLString(course.studyTime),
-                        Helpers.toSQLString(course.majors),};
+                        Services.toSQLString(course.name, true),
+                        Services.toSQLString(course.description, true),
+                        Services.toSQLString(course.studyTime),
+                        Services.toSQLString(course.majors),};
                     try {
-                        if (Helpers.updateData("Courses", columnsName, values, "id=" + Helpers.toSQLString(course.id))) {
-                            Helpers.showMess("Cập nhật thành công!");
-                            Helpers.getCourse(table);
+                        if (Services.updateData("Courses", columnsName, values, "id=" + Services.toSQLString(course.id))) {
+                            Services.showMess("Cập nhật thành công!");
+                            Services.getCourse(table);
                             updateCourseForm.dispose();
                         }
 
                     } catch (Exception ex) {
-                        Helpers.showMess(ex.toString());
+                        Services.showMess(ex.toString());
                     }
 
                 }
             }
         });
-        Helpers.addActionListener(updateCourseForm.cancelButton, new ActionListener() {
+        Services.addActionListener(updateCourseForm.cancelButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateCourseForm.dispose();

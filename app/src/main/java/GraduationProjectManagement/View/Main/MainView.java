@@ -5,7 +5,7 @@
 package GraduationProjectManagement.View.Main;
 
 import GraduationProjectManagement.Model.Auth.User;
-import GraduationProjectManagement.Utils.Position;
+import GraduationProjectManagement.Services.Position;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;

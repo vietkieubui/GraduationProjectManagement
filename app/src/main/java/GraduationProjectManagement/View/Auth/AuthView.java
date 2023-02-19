@@ -1,6 +1,6 @@
 package GraduationProjectManagement.View.Auth;
 
-import GraduationProjectManagement.Utils.Position;
+import GraduationProjectManagement.Services.Position;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

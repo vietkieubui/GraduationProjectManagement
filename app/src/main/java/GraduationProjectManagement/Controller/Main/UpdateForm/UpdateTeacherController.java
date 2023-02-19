@@ -5,7 +5,7 @@
 package GraduationProjectManagement.Controller.Main.UpdateForm;
 
 import GraduationProjectManagement.Model.TeacherModel;
-import GraduationProjectManagement.Utils.Helpers;
+import GraduationProjectManagement.Services.Services;
 import GraduationProjectManagement.View.Main.UpdateForm.UpdateTeacherForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +31,7 @@ public class UpdateTeacherController {
         updateTeacherForm.idText.setText(teacherModel.id);
         updateTeacherForm.nameText.setText(teacherModel.name);
         updateTeacherForm.academicRank.setText(teacherModel.academicRank);
-        String[] listMajors = Helpers.getMajorsList();
+        String[] listMajors = Services.getMajorsList();
         updateTeacherForm.majorsComboBox.setModel(new DefaultComboBoxModel<>(listMajors));
         updateTeacherForm.majorsComboBox.setSelectedItem(teacherModel.majors);
         updateTeacherForm.phonenumberText.setText(teacherModel.phonenumber);
@@ -39,17 +39,17 @@ public class UpdateTeacherController {
     }
 
     private void updateFormButtonController() {
-        Helpers.addActionListener(updateTeacherForm.updateButton, new ActionListener() {
+        Services.addActionListener(updateTeacherForm.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (updateTeacherForm.majorsComboBox.getSelectedIndex() == 0) {
-                    Helpers.showMess("Bạn chưa chọn khoa!");
-                } else if (!Helpers.isValidPhoneNumber(updateTeacherForm.phonenumberText.getText())) {
-                    Helpers.showMess("Số điện thoại không hợp lệ!");
-                } else if (!Helpers.isValidEmail(updateTeacherForm.emailText.getText())) {
-                    Helpers.showMess("Email không hợp lệ!");
+                    Services.showMess("Bạn chưa chọn khoa!");
+                } else if (!Services.isValidPhoneNumber(updateTeacherForm.phonenumberText.getText())) {
+                    Services.showMess("Số điện thoại không hợp lệ!");
+                } else if (!Services.isValidEmail(updateTeacherForm.emailText.getText())) {
+                    Services.showMess("Email không hợp lệ!");
                 } else {
-                    String majorsId = Helpers.getMajorsId(updateTeacherForm.majorsComboBox.getSelectedItem().toString());
+                    String majorsId = Services.getMajorsId(updateTeacherForm.majorsComboBox.getSelectedItem().toString());
                     TeacherModel teacher = new TeacherModel(
                             updateTeacherForm.nameText.getText(),
                             updateTeacherForm.academicRank.getText(),
@@ -61,20 +61,20 @@ public class UpdateTeacherController {
 
                     String[] columnsName = {"name", "academicRank", "majors", "phonenumber", "email"};
                     String[] values = {
-                        Helpers.toSQLString(teacher.name, true),
-                        Helpers.toSQLString(teacher.academicRank, true),
-                        Helpers.toSQLString(teacher.majors),
-                        Helpers.toSQLString(teacher.phonenumber),
-                        Helpers.toSQLString(teacher.email)
+                        Services.toSQLString(teacher.name, true),
+                        Services.toSQLString(teacher.academicRank, true),
+                        Services.toSQLString(teacher.majors),
+                        Services.toSQLString(teacher.phonenumber),
+                        Services.toSQLString(teacher.email)
                     };
                     try {
-                        if (Helpers.updateData("Teachers", columnsName, values, "id=" + Helpers.toSQLString(teacher.id))) {
-                            Helpers.showMess("Cập nhật thành công!");
-                            Helpers.getTeacher(table);
+                        if (Services.updateData("Teachers", columnsName, values, "id=" + Services.toSQLString(teacher.id))) {
+                            Services.showMess("Cập nhật thành công!");
+                            Services.getTeacher(table);
                             updateTeacherForm.dispose();
                         }
                     } catch (Exception ex) {
-                        Helpers.showMess(ex.toString());
+                        Services.showMess(ex.toString());
                     }
 
                 }
@@ -82,7 +82,7 @@ public class UpdateTeacherController {
             }
         }
         );
-        Helpers.addActionListener(updateTeacherForm.cancelButton, new ActionListener() {
+        Services.addActionListener(updateTeacherForm.cancelButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
             ) {

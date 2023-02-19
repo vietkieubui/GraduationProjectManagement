@@ -1,7 +1,7 @@
 package GraduationProjectManagement.Controller.Main.UpdateForm;
 
 import GraduationProjectManagement.Model.MajorsModel;
-import GraduationProjectManagement.Utils.Helpers;
+import GraduationProjectManagement.Services.Services;
 import GraduationProjectManagement.View.Main.UpdateForm.UpdateMajorsForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,26 +32,26 @@ public class UpdateMajorsController {
     }
 
     void updateFormButtonController() {
-        Helpers.addActionListener(updateMajorsForm.updateButton, new ActionListener() {
+        Services.addActionListener(updateMajorsForm.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MajorsModel majors = new MajorsModel(updateMajorsForm.idText.getText(),
                         updateMajorsForm.nameText.getText(), updateMajorsForm.descriptionText.getText());
                 String[] columnsName = {"name", "description"};
-                String[] values = {Helpers.toSQLString(majors.name,true), Helpers.toSQLString(majors.description,true)};
+                String[] values = {Services.toSQLString(majors.name,true), Services.toSQLString(majors.description,true)};
                 try {
-                    if (Helpers.updateData("Majors", columnsName, values, "majorsId="+Helpers.toSQLString(majors.majorsId))) {
-                        Helpers.showMess("Cập nhật thành công!");
-                        Helpers.getMajors(table);
+                    if (Services.updateData("Majors", columnsName, values, "majorsId="+Services.toSQLString(majors.majorsId))) {
+                        Services.showMess("Cập nhật thành công!");
+                        Services.getMajors(table);
                         updateMajorsForm.dispose();
                     }
 
                 } catch (Exception ex) {
-                    Helpers.showMess(ex.toString());
+                    Services.showMess(ex.toString());
                 }
             }
         });
-        Helpers.addActionListener(updateMajorsForm.cancelButton, new ActionListener() {
+        Services.addActionListener(updateMajorsForm.cancelButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateMajorsForm.dispose();

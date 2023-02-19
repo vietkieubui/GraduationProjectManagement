@@ -1,8 +1,8 @@
-package GraduationProjectManagement.Utils;
+package GraduationProjectManagement.Services;
 
 import GraduationProjectManagement.Model.Auth.RegisterModel;
 import GraduationProjectManagement.Model.Auth.User;
-import static GraduationProjectManagement.Utils.ConnectDatabase.cnn;
+import static GraduationProjectManagement.Services.ConnectDatabase.cnn;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.math.BigInteger;
@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.checkerframework.common.returnsreceiver.qual.This;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -31,7 +32,7 @@ import java.util.regex.Pattern;
  *
  * @author BVKieu
  */
-public final class Helpers {
+public final class Services {
 
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
@@ -52,7 +53,7 @@ public final class Helpers {
     }
 
     public static boolean login(String username, String password) {
-        String hashedPassword = Helpers.hashPassword(password);
+        String hashedPassword = Services.hashPassword(password);
         String sql = "SELECT * FROM Users WHERE username = " + toSQLString(username) + " AND password = " + toSQLString(hashedPassword);
         try {
             Statement stm = cnn.createStatement();
@@ -62,7 +63,7 @@ public final class Helpers {
                 return true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -77,14 +78,14 @@ public final class Helpers {
             showMess("Tên đăng nhập đã được sử dụng!");
             return false;
         } else {
-            String hashedPassword = Helpers.hashPassword(password);
+            String hashedPassword = Services.hashPassword(password);
             RegisterModel registerModel = new RegisterModel(name, phonenumber, username, hashedPassword, confirmPassword);
 
             String[] columnsName = {"name", "username", "phonenumber", "password"};
-            String[] values = {Helpers.toSQLString(registerModel.name, true), Helpers.toSQLString(registerModel.username), Helpers.toSQLString(registerModel.phonenumber), Helpers.toSQLString(registerModel.password)};
+            String[] values = {Services.toSQLString(registerModel.name, true), Services.toSQLString(registerModel.username), Services.toSQLString(registerModel.phonenumber), Services.toSQLString(registerModel.password)};
             try {
-                if (Helpers.insertIntoDatabase("Users", columnsName, values)) {
-                    Helpers.showMess("Đăng ký thành công");
+                if (Services.insertIntoDatabase("Users", columnsName, values)) {
+                    Services.showMess("Đăng ký thành công");
                     return true;
                 }
             } catch (Exception ex) {
@@ -115,7 +116,7 @@ public final class Helpers {
             stm.executeUpdate(sql);
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
             showMess(ex.toString());
             return false;
         }
@@ -138,12 +139,26 @@ public final class Helpers {
             stm.executeUpdate(sql);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
             showMess(ex.toString());
             return false;
         }
     }
 
+    public static boolean deleteData(String tableName, String condition){
+        String sql = "DELETE " + tableName + "WHERE " + condition;
+        System.out.println(sql);
+        try {
+            Statement stm = cnn.createStatement();
+            stm.executeUpdate(sql);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
+            showMess(ex.toString());
+            return false;
+        }
+    }
+    
     public static boolean checkExist(String tableName, String column, String value) {
         boolean flag = false;
         String sql = "SELECT * FROM " + tableName + " where " + column + " = " + toSQLString(value);
@@ -154,7 +169,7 @@ public final class Helpers {
                 flag = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
         return flag;
     }
@@ -178,7 +193,7 @@ public final class Helpers {
             hashedPassword = no.toString(16);
             return hashedPassword;
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
         return hashedPassword;
     }
@@ -207,7 +222,7 @@ public final class Helpers {
             }
         } catch (Exception ex) {
             System.out.println(ex.toString());
-            Helpers.showMess("Lỗi đọc dữ liệu từ SQL Server!");
+            Services.showMess("Lỗi đọc dữ liệu từ SQL Server!");
         }
         listMajors = list.toArray(new String[list.size()]);
         return listMajors;
@@ -233,7 +248,7 @@ public final class Helpers {
             }
         } catch (Exception ex) {
             System.out.println(ex.toString());
-            Helpers.showMess("Lỗi đọc dữ liệu từ SQL Server!");
+            Services.showMess("Lỗi đọc dữ liệu từ SQL Server!");
         }
         courseList = list.toArray(new String[list.size()]);
         return courseList;
@@ -273,7 +288,7 @@ public final class Helpers {
             }
         } catch (Exception ex) {
             System.out.println(ex.toString());
-            Helpers.showMess("Lỗi đọc dữ liệu từ SQL Server!");
+            Services.showMess("Lỗi đọc dữ liệu từ SQL Server!");
         }
         courseList = list.toArray(new String[list.size()]);
         return courseList;
@@ -301,7 +316,7 @@ public final class Helpers {
             }
         } catch (Exception ex) {
             System.out.println(ex.toString());
-            Helpers.showMess("Lỗi đọc dữ liệu từ SQL Server!");
+            Services.showMess("Lỗi đọc dữ liệu từ SQL Server!");
         }
         return majors;
     }
@@ -324,7 +339,7 @@ public final class Helpers {
             }
         } catch (Exception ex) {
             System.out.println(ex.toString());
-            Helpers.showMess("Lỗi đọc dữ liệu từ SQL Server!");
+            Services.showMess("Lỗi đọc dữ liệu từ SQL Server!");
         }
         return course;
     }
@@ -348,7 +363,7 @@ public final class Helpers {
             }
         } catch (SQLException ex) {
             System.out.println(ex.toString());
-            Helpers.showMess("SQL Error!");
+            Services.showMess("SQL Error!");
         }
         return majorsId;
     }
@@ -368,7 +383,7 @@ public final class Helpers {
             }
         } catch (SQLException ex) {
             System.out.println(ex.toString());
-            Helpers.showMess("SQL Error!");
+            Services.showMess("SQL Error!");
         }
         return majorsId;
     }
@@ -388,7 +403,7 @@ public final class Helpers {
             }
         } catch (SQLException ex) {
             System.out.println(ex.toString());
-            Helpers.showMess("SQL Error!");
+            Services.showMess("SQL Error!");
         }
         return classId;
     }
@@ -407,7 +422,7 @@ public final class Helpers {
                 schoolYearTable.addRow(new Object[]{rs.getString("id"), rs.getString("name")});
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -421,7 +436,7 @@ public final class Helpers {
                 majorsTable.addRow(new Object[]{rs.getString("majorsId"), rs.getString("name"), rs.getString("description")});
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -435,7 +450,7 @@ public final class Helpers {
                 courseTable.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getString("majors"), rs.getString("description"), rs.getString("studyTime")});
             }
         } catch (Exception ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -449,7 +464,7 @@ public final class Helpers {
                 classTable.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getString("course"), rs.getString("majors"), rs.getString("studyTime"), rs.getString("description")});
             }
         } catch (Exception ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -464,7 +479,7 @@ public final class Helpers {
                 teacherTable.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getString("academicRank"), rs.getString("majors"), rs.getString("phonenumber"), rs.getString("email")});
             }
         } catch (Exception ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -481,7 +496,7 @@ public final class Helpers {
                 studentTable.addRow(new Object[]{rs.getString("id"), rs.getString("name"), rs.getString("gender"), rs.getString("birthday"), rs.getString("class"), rs.getString("phonenumber"), rs.getString("email")});
             }
         } catch (Exception ex) {
-            Logger.getLogger(Helpers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Services.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

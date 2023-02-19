@@ -6,7 +6,7 @@ package GraduationProjectManagement.Controller.Main.AddForm;
 
 import GraduationProjectManagement.Model.CourseModel;
 import GraduationProjectManagement.Model.TeacherModel;
-import GraduationProjectManagement.Utils.Helpers;
+import GraduationProjectManagement.Services.Services;
 import GraduationProjectManagement.View.Main.AddForm.AddTeacherForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,39 +28,39 @@ public class AddTeacherController {
         this.table = table;
         addTeacherForm = new AddTeacherForm();
         addFormButtonController();
-        String[] listMajors = Helpers.getMajorsList();
+        String[] listMajors = Services.getMajorsList();
         addTeacherForm.majorsComboBox.setModel(new DefaultComboBoxModel<>(listMajors));
     }
 
     void addFormButtonController() {
-        Helpers.addActionListener(addTeacherForm.addButton, new ActionListener() {
+        Services.addActionListener(addTeacherForm.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (addTeacherForm.majorsComboBox.getSelectedIndex() == 0) {
-                    Helpers.showMess("Bạn chưa chọn khoa!");
-                }else if(!Helpers.isValidPhoneNumber(addTeacherForm.phonenumberText.getText())){
-                    Helpers.showMess("Số điện thoại không hợp lệ!");
-                }else if(!Helpers.isValidEmail(addTeacherForm.emailText.getText())){
-                    Helpers.showMess("Email không hợp lệ!");
+                    Services.showMess("Bạn chưa chọn khoa!");
+                }else if(!Services.isValidPhoneNumber(addTeacherForm.phonenumberText.getText())){
+                    Services.showMess("Số điện thoại không hợp lệ!");
+                }else if(!Services.isValidEmail(addTeacherForm.emailText.getText())){
+                    Services.showMess("Email không hợp lệ!");
                 }
                 else {
                     TeacherModel teacher = new TeacherModel(addTeacherForm.nameText.getText(),
                             addTeacherForm.academicRank.getText(), addTeacherForm.majorsComboBox.getSelectedItem().toString(), addTeacherForm.phonenumberText.getText(), addTeacherForm.emailText.getText());
-                    String majorsId = Helpers.getMajorsId(teacher.majors);
+                    String majorsId = Services.getMajorsId(teacher.majors);
                     Statement stm = null;
                     ResultSet rs = null;
                     String[] columnsName = {"name", "academicRank", "majors", "phonenumber", "email"};
-                    String[] values = {Helpers.toSQLString(teacher.name, true), Helpers.toSQLString(teacher.academicRank, true),
-                        Helpers.toSQLString(majorsId), Helpers.toSQLString(teacher.phonenumber), Helpers.toSQLString(teacher.email)};
-                    if (Helpers.insertIntoDatabase("Teachers", columnsName, values)) {
-                        Helpers.showMess("Thêm thành công!");
-                        Helpers.getTeacher(table);
+                    String[] values = {Services.toSQLString(teacher.name, true), Services.toSQLString(teacher.academicRank, true),
+                        Services.toSQLString(majorsId), Services.toSQLString(teacher.phonenumber), Services.toSQLString(teacher.email)};
+                    if (Services.insertIntoDatabase("Teachers", columnsName, values)) {
+                        Services.showMess("Thêm thành công!");
+                        Services.getTeacher(table);
                         addTeacherForm.dispose();
                     }
                 }
             }
         });
-        Helpers.addActionListener(addTeacherForm.cancelButton, new ActionListener() {
+        Services.addActionListener(addTeacherForm.cancelButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addTeacherForm.dispose();

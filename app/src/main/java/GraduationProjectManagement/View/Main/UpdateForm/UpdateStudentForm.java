@@ -5,7 +5,7 @@
 package GraduationProjectManagement.View.Main.UpdateForm;
 
 import GraduationProjectManagement.View.Main.AddForm.*;
-import GraduationProjectManagement.Utils.Position;
+import GraduationProjectManagement.Services.Position;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -43,9 +43,6 @@ public class UpdateStudentForm extends javax.swing.JFrame {
         majorsComboBox = new javax.swing.JComboBox<>();
         nameText = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        addButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
         classComboBox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -57,6 +54,9 @@ public class UpdateStudentForm extends javax.swing.JFrame {
         emailText = new javax.swing.JTextField();
         idText = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        updateButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -71,14 +71,6 @@ public class UpdateStudentForm extends javax.swing.JFrame {
         majorsComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel5.setText("Họ và tên");
-
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 50, 5));
-
-        addButton.setText("Thêm");
-        jPanel1.add(addButton);
-
-        cancelButton.setText("Hủy");
-        jPanel1.add(cancelButton);
 
         classComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -96,11 +88,18 @@ public class UpdateStudentForm extends javax.swing.JFrame {
 
         jLabel9.setText("Mã SV");
 
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 50, 5));
+
+        updateButton.setText("Cập nhật");
+        jPanel1.add(updateButton);
+
+        cancelButton.setText("Hủy");
+        jPanel1.add(cancelButton);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(84, 84, 84)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +137,11 @@ public class UpdateStudentForm extends javax.swing.JFrame {
                                 .addComponent(emailText, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(courseComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(classComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(93, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +234,6 @@ public class UpdateStudentForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton addButton;
     public com.toedter.calendar.JDateChooser birthday;
     public javax.swing.JButton cancelButton;
     public javax.swing.JComboBox<String> classComboBox;
@@ -252,5 +254,6 @@ public class UpdateStudentForm extends javax.swing.JFrame {
     public javax.swing.JComboBox<String> majorsComboBox;
     public javax.swing.JTextField nameText;
     public javax.swing.JTextField phonenumberText;
+    public javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

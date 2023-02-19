@@ -14,13 +14,15 @@ import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateClassControl
 import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateCourseController;
 import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateMajorsController;
 import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateSchoolYearController;
+import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateStudentController;
 import GraduationProjectManagement.Controller.Main.UpdateForm.UpdateTeacherController;
 import GraduationProjectManagement.Model.ClassModel;
 import GraduationProjectManagement.Model.CourseModel;
 import GraduationProjectManagement.Model.MajorsModel;
 import GraduationProjectManagement.Model.SchoolYearModel;
+import GraduationProjectManagement.Model.StudentModel;
 import GraduationProjectManagement.Model.TeacherModel;
-import GraduationProjectManagement.Utils.Helpers;
+import GraduationProjectManagement.Services.Services;
 import GraduationProjectManagement.View.Main.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -76,7 +78,7 @@ public final class MainController {
     }
 
     public void mainViewButtonActionListener() {
-        Helpers.addActionListener(mainView.projectTopicButton, new ActionListener() {
+        Services.addActionListener(mainView.projectTopicButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 currentPanel.setVisible(false);
@@ -86,10 +88,10 @@ public final class MainController {
             }
         });
 
-        Helpers.addActionListener(mainView.studentButton, new ActionListener() {
+        Services.addActionListener(mainView.studentButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Helpers.getStudent(studentTable);
+                Services.getStudent(studentTable);
                 currentPanel.setVisible(false);
                 mainView.mainPanel.add(studentManagementPanel);
                 studentManagementPanel.setVisible(true);
@@ -97,10 +99,10 @@ public final class MainController {
             }
         });
 
-        Helpers.addActionListener(mainView.teacherButton, new ActionListener() {
+        Services.addActionListener(mainView.teacherButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Helpers.getTeacher(teacherTable);
+                Services.getTeacher(teacherTable);
                 currentPanel.setVisible(false);
                 mainView.mainPanel.add(teacherManagementPanel);
                 teacherManagementPanel.setVisible(true);
@@ -108,10 +110,10 @@ public final class MainController {
             }
         });
 
-        Helpers.addActionListener(mainView.classButton, new ActionListener() {
+        Services.addActionListener(mainView.classButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Helpers.getClass(classTable);
+                Services.getClass(classTable);
                 currentPanel.setVisible(false);
                 mainView.mainPanel.add(classManagementPanel);
                 classManagementPanel.setVisible(true);
@@ -119,10 +121,10 @@ public final class MainController {
             }
         });
 
-        Helpers.addActionListener(mainView.courseButton, new ActionListener() {
+        Services.addActionListener(mainView.courseButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Helpers.getCourse(courseTable);
+                Services.getCourse(courseTable);
                 currentPanel.setVisible(false);
                 mainView.mainPanel.add(courseManagementPanel);
                 courseManagementPanel.setVisible(true);
@@ -130,10 +132,10 @@ public final class MainController {
             }
         });
 
-        Helpers.addActionListener(mainView.schoolYearButton, new ActionListener() {
+        Services.addActionListener(mainView.schoolYearButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Helpers.getSchoolYears(schoolYearTable);
+                Services.getSchoolYears(schoolYearTable);
                 currentPanel.setVisible(false);
                 mainView.mainPanel.add(schoolYearManagementPanel);
                 schoolYearManagementPanel.setVisible(true);
@@ -141,10 +143,10 @@ public final class MainController {
             }
         });
 
-        Helpers.addActionListener(mainView.majorsButton, new ActionListener() {
+        Services.addActionListener(mainView.majorsButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Helpers.getMajors(majorsTable);
+                Services.getMajors(majorsTable);
                 currentPanel.setVisible(false);
                 mainView.mainPanel.add(majorsManagementPanel);
                 majorsManagementPanel.setVisible(true);
@@ -154,22 +156,45 @@ public final class MainController {
     }
 
     public void studentPanelActionListener() {
-        Helpers.addActionListener(studentManagementPanel.addButton, new ActionListener() {
+        Services.addActionListener(studentManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddStudentController(studentTable);
             }
         });
+
+        Services.addActionListener(studentManagementPanel.updateButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int updateRow = studentManagementPanel.studentTable.getSelectedRow();
+                    StudentModel studentModel = new StudentModel(
+                            (String) studentTable.getValueAt(updateRow, 0),
+                            (String) studentTable.getValueAt(updateRow, 1),
+                            (String) studentTable.getValueAt(updateRow, 2),
+                            (String) studentTable.getValueAt(updateRow, 3),
+                            (String) studentTable.getValueAt(updateRow, 4),
+                            (String) studentTable.getValueAt(updateRow, 5),
+                            (String) studentTable.getValueAt(updateRow, 6)
+                    );
+                    new UpdateStudentController(studentTable, studentModel);
+                } catch (Exception ex) {
+                    System.out.println(ex.toString());
+                    Services.showMess("Bạn phải chọn 1 hàng!");
+                }
+            }
+        });
+
     }
 
     public void teacherPanelActionListener() {
-        Helpers.addActionListener(teacherManagementPanel.addButton, new ActionListener() {
+        Services.addActionListener(teacherManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddTeacherController(teacherTable);
             }
         });
-        Helpers.addActionListener(teacherManagementPanel.updateButton, new ActionListener() {
+        Services.addActionListener(teacherManagementPanel.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -181,25 +206,25 @@ public final class MainController {
                             (String) teacherTable.getValueAt(updateRow, 4),
                             (String) teacherTable.getValueAt(updateRow, 5)
                     );
-                    
+
                     teacherModel.id = (String) teacherTable.getValueAt(updateRow, 0);
                     new UpdateTeacherController(teacherTable, teacherModel);
                 } catch (Exception ex) {
                     System.out.println(ex.toString());
-                    Helpers.showMess("Bạn phải chọn 1 hàng!");
+                    Services.showMess("Bạn phải chọn 1 hàng!");
                 }
             }
         });
     }
 
     public void classPanelActionListener() {
-        Helpers.addActionListener(classManagementPanel.addButton, new ActionListener() {
+        Services.addActionListener(classManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddClassController(classTable);
             }
         });
-        Helpers.addActionListener(classManagementPanel.updateButton, new ActionListener() {
+        Services.addActionListener(classManagementPanel.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -213,20 +238,20 @@ public final class MainController {
                     new UpdateClassController(classTable, classModel);
                 } catch (Exception ex) {
                     System.out.println(ex.toString());
-                    Helpers.showMess("Bạn phải chọn 1 hàng!");
+                    Services.showMess("Bạn phải chọn 1 hàng!");
                 }
             }
         });
     }
 
     public void coursePanelActionListener() {
-        Helpers.addActionListener(courseManagementPanel.addButton, new ActionListener() {
+        Services.addActionListener(courseManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddCourseController(courseTable);
             }
         });
-        Helpers.addActionListener(courseManagementPanel.updateButton, new ActionListener() {
+        Services.addActionListener(courseManagementPanel.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -241,7 +266,7 @@ public final class MainController {
                     new UpdateCourseController(courseTable, courseModel);
                 } catch (Exception ex) {
                     System.out.println(ex.toString());
-                    Helpers.showMess("Bạn phải chọn 1 hàng!");
+                    Services.showMess("Bạn phải chọn 1 hàng!");
                 }
 
             }
@@ -250,13 +275,13 @@ public final class MainController {
     }
 
     public void majorsPanelActionListener() {
-        Helpers.addActionListener(majorsManagementPanel.addButton, new ActionListener() {
+        Services.addActionListener(majorsManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddMajorsController(majorsTable);
             }
         });
-        Helpers.addActionListener(majorsManagementPanel.updateButton, new ActionListener() {
+        Services.addActionListener(majorsManagementPanel.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -268,7 +293,7 @@ public final class MainController {
                     new UpdateMajorsController(majorsTable, majorsModel);
                 } catch (Exception ex) {
                     System.out.println(ex.toString());
-                    Helpers.showMess("Bạn phải chọn 1 hàng!");
+                    Services.showMess("Bạn phải chọn 1 hàng!");
                 }
             }
         });
@@ -276,13 +301,13 @@ public final class MainController {
     }
 
     public void schoolYearPanelActionListener() {
-        Helpers.addActionListener(schoolYearManagementPanel.addButton, new ActionListener() {
+        Services.addActionListener(schoolYearManagementPanel.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddSchoolYearController(schoolYearTable);
             }
         });
-        Helpers.addActionListener(schoolYearManagementPanel.updateButton, new ActionListener() {
+        Services.addActionListener(schoolYearManagementPanel.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -292,7 +317,7 @@ public final class MainController {
                     new UpdateSchoolYearController(schoolYearTable, schoolYearModel);
                 } catch (Exception ex) {
                     System.out.println(ex.toString());
-                    Helpers.showMess("Bạn phải chọn 1 hàng!");
+                    Services.showMess("Bạn phải chọn 1 hàng!");
                 }
 
             }

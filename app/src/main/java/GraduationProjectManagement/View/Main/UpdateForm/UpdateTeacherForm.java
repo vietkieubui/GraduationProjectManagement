@@ -5,7 +5,7 @@
 package GraduationProjectManagement.View.Main.UpdateForm;
 
 import GraduationProjectManagement.View.Main.AddForm.*;
-import GraduationProjectManagement.Utils.Position;
+import GraduationProjectManagement.Services.Position;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 

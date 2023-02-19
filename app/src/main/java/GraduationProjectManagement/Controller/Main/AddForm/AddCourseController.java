@@ -5,7 +5,7 @@
 package GraduationProjectManagement.Controller.Main.AddForm;
 
 import GraduationProjectManagement.Model.CourseModel;
-import GraduationProjectManagement.Utils.Helpers;
+import GraduationProjectManagement.Services.Services;
 import GraduationProjectManagement.View.Main.AddForm.AddCourseForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,31 +27,31 @@ public class AddCourseController {
         this.table = table;
         addCourseForm = new AddCourseForm();
         addFormButtonController();
-        String[] listMajors = Helpers.getMajorsList();
+        String[] listMajors = Services.getMajorsList();
         addCourseForm.majorsComboBox.setModel(new DefaultComboBoxModel<>(listMajors));
     }
 
     void addFormButtonController() {
-        Helpers.addActionListener(addCourseForm.addButton, new ActionListener() {
+        Services.addActionListener(addCourseForm.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (addCourseForm.majorsComboBox.getSelectedIndex() == 0) {
-                    Helpers.showMess("Bạn chưa chọn khoa!");
+                    Services.showMess("Bạn chưa chọn khoa!");
                 } else {
                     CourseModel course = new CourseModel(addCourseForm.courseNameText.getText(), addCourseForm.courseDescriptionText.getText(), addCourseForm.studyTimeText.getText(), addCourseForm.majorsComboBox.getSelectedItem().toString());
-                    String majorsId = Helpers.getMajorsId(course.majors);
+                    String majorsId = Services.getMajorsId(course.majors);
                     String[] columnsName = {"name", "description", "studyTime", "majors"};
-                    String[] values = {Helpers.toSQLString(course.name, true), Helpers.toSQLString(course.description, true), Helpers.toSQLString(course.studyTime), Helpers.toSQLString(majorsId)};
-                    if (Helpers.insertIntoDatabase("Courses", columnsName, values)) {
-                        Helpers.showMess("Thêm thành công!");
-                        Helpers.getCourse(table);
+                    String[] values = {Services.toSQLString(course.name, true), Services.toSQLString(course.description, true), Services.toSQLString(course.studyTime), Services.toSQLString(majorsId)};
+                    if (Services.insertIntoDatabase("Courses", columnsName, values)) {
+                        Services.showMess("Thêm thành công!");
+                        Services.getCourse(table);
                         addCourseForm.dispose();
                     }
 
                 }
             }
         });
-        Helpers.addActionListener(addCourseForm.cancelButton, new ActionListener() {
+        Services.addActionListener(addCourseForm.cancelButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addCourseForm.dispose();

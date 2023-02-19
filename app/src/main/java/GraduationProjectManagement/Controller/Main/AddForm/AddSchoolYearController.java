@@ -6,7 +6,7 @@ package GraduationProjectManagement.Controller.Main.AddForm;
 
 import GraduationProjectManagement.Controller.Main.MainController;
 import GraduationProjectManagement.Model.SchoolYearModel;
-import GraduationProjectManagement.Utils.Helpers;
+import GraduationProjectManagement.Services.Services;
 import GraduationProjectManagement.View.Main.AddForm.AddSchoolYearForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,25 +28,25 @@ public final class AddSchoolYearController {
     }
 
     void addFormButtonController() {
-        Helpers.addActionListener(addSchoolYearForm.addButton, new ActionListener() {
+        Services.addActionListener(addSchoolYearForm.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SchoolYearModel schoolYear = new SchoolYearModel(addSchoolYearForm.schoolYearText.getText());
                 String[] columnsName = {"name"};
-                String[] values = {Helpers.toSQLString(schoolYear.name)};
+                String[] values = {Services.toSQLString(schoolYear.name)};
                 try {
-                    if (Helpers.insertIntoDatabase("SchoolYears", columnsName, values)) {
-                        Helpers.showMess("Thêm thành công!");
-                        Helpers.getSchoolYears(table);
+                    if (Services.insertIntoDatabase("SchoolYears", columnsName, values)) {
+                        Services.showMess("Thêm thành công!");
+                        Services.getSchoolYears(table);
                         addSchoolYearForm.dispose();
                     }
 
                 } catch (Exception ex) {
-                    Helpers.showMess(ex.toString());
+                    Services.showMess(ex.toString());
                 }
             }
         });
-        Helpers.addActionListener(addSchoolYearForm.cancelButton, new ActionListener() {
+        Services.addActionListener(addSchoolYearForm.cancelButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addSchoolYearForm.dispose();

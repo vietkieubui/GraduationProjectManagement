@@ -23,11 +23,12 @@ create table SchoolYears(
 )
 ALTER TABLE SchoolYears ADD UNIQUE(name);
 
-UPDATE SchoolYears SET name='2020 - 2021' WHERE id='3'
 
-/*
+UPDATE SchoolYears SET name='2020 - 2021' WHERE id='3'
+DELETE SchoolYears WHERE id='3'
+
 SELECT * FROM SchoolYears
-*/
+
 
 create table Majors(
 	id int IDENTITY(1,1) PRIMARY KEY,
@@ -102,12 +103,25 @@ create table Students(
 	email VARCHAR(100) NOT NULL UNIQUE,
 )
 
+DELETE Classes WHERE id='3'
 SELECT * FROM Students
 SELECT Students.id, Students.name, Students.gender, Students.birthday, Classes.name as class, Students.phonenumber, Students.email FROM Students, Classes WHERE Students.class = Classes.id 
 GROUP BY Classes.name, Students.id, Students.name, Students.gender, Students.birthday,Students.phonenumber, Students.email
 ORDER BY  Classes.name, Students.id
 INSERT INTO Students(id,name,gender,birthday,class,phonenumber,email)VALUES('CT030401',N'Bùi Thị B',N'Nữ','29-02-2000','10','0128679646','bbt@gmail.com')
 
-SELECT DISTINCT Majors.name FROM Majors 
-                ORDER BY Majors.name
+SELECT DISTINCT Majors.name FROM Majors ORDER BY Majors.name
+
+create table ProjectTopics(
+	id VARCHAR(12) PRIMARY KEY,
+	name NVARCHAR(100) NOT NULL,
+	description NVARCHAR(1000),
+	require NVARCHAR(1000),
+	instructor int FOREIGN KEY REFERENCES Teachers(id),
+	course int FOREIGN KEY REFERENCES Courses(id),
+	schoolYear int FOREIGN KEY REFERENCES SchoolYears(id),
+	student VARCHAR(12) FOREIGN KEY REFERENCES Students(id),
+
+)
+
 /**/

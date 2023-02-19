@@ -4,7 +4,7 @@
 package GraduationProjectManagement.Controller;
 
 import GraduationProjectManagement.Controller.Main.MainController;
-import GraduationProjectManagement.Utils.ConnectDatabase;
+import GraduationProjectManagement.Services.ConnectDatabase;
 
 public class App {
 
@@ -12,7 +12,7 @@ public class App {
 //        new Auth_Controller();
 //          new ConnectDBController();
         var connectDB = new ConnectDatabase();
-        connectDB.connectDatabase("192.168.30.103", "sa", "123");
+        connectDB.connectDatabase("192.168.0.102", "sa", "123");
         new MainController();
 
     }

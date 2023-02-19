@@ -5,7 +5,7 @@
 package GraduationProjectManagement.Controller.Main.AddForm;
 
 import GraduationProjectManagement.Model.ClassModel;
-import GraduationProjectManagement.Utils.Helpers;
+import GraduationProjectManagement.Services.Services;
 import GraduationProjectManagement.View.Main.AddForm.AddClassForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,62 +27,62 @@ public class AddClassController {
         this.table = table;
         addClassForm = new AddClassForm();
         addFormButtonActionListener();
-        String[] listMajors = Helpers.getMajorsList();
-        String[] listCourse = Helpers.getCourseList("");
+        String[] listMajors = Services.getMajorsList();
+        String[] listCourse = Services.getCourseList("");
         addClassForm.majorsComboBox.setModel(new DefaultComboBoxModel<>(listMajors));
         addClassForm.courseComboBox.setModel(new DefaultComboBoxModel<>(listCourse));
     }
 
     void addFormButtonActionListener() {
-        Helpers.addActionListener(addClassForm.majorsComboBox, new ActionListener() {
+        Services.addActionListener(addClassForm.majorsComboBox, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[] listCourse = null;
                 if (addClassForm.majorsComboBox.getSelectedIndex() == 0) {
-                    listCourse = Helpers.getCourseList("");
+                    listCourse = Services.getCourseList("");
                 } else {
-                    listCourse = Helpers.getCourseList(addClassForm.majorsComboBox.getSelectedItem().toString());
+                    listCourse = Services.getCourseList(addClassForm.majorsComboBox.getSelectedItem().toString());
                 }
                 addClassForm.courseComboBox.setModel(new DefaultComboBoxModel<>(listCourse));
             }
         });
 
-        Helpers.addActionListener(addClassForm.courseComboBox, new ActionListener() {
+        Services.addActionListener(addClassForm.courseComboBox, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (addClassForm.courseComboBox.getSelectedIndex() != 0 && addClassForm.majorsComboBox.getSelectedIndex() == 0) {
                     String courseName = addClassForm.courseComboBox.getSelectedItem().toString();
-                    addClassForm.majorsComboBox.setSelectedItem(Helpers.setSelectedMajors("", addClassForm.courseComboBox.getSelectedItem().toString()));
+                    addClassForm.majorsComboBox.setSelectedItem(Services.setSelectedMajors("", addClassForm.courseComboBox.getSelectedItem().toString()));
                     addClassForm.courseComboBox.setSelectedItem(courseName);
                 }
             }
         });
 
-        Helpers.addActionListener(addClassForm.addButton, new ActionListener() {
+        Services.addActionListener(addClassForm.addButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (addClassForm.courseComboBox.getSelectedIndex() == 0) {
-                    Helpers.showMess("Bạn chưa chọn khóa!");
+                    Services.showMess("Bạn chưa chọn khóa!");
                 } else if (addClassForm.classNameText.getText().equals("")) {
-                    Helpers.showMess("Tên lớp không được để trống!");
+                    Services.showMess("Tên lớp không được để trống!");
                 } else {
                     ClassModel classModel = new ClassModel(addClassForm.classNameText.getText(),
                             addClassForm.classDescriptionText.getText(), addClassForm.courseComboBox.getSelectedItem().toString());
-                    String courseId = Helpers.getCourseId(classModel.course);
+                    String courseId = Services.getCourseId(classModel.course);
                     Statement stm = null;
                     ResultSet rs = null;
                     String[] columnsName = {"name", "description", "course"};
-                    String[] values = {Helpers.toSQLString(classModel.name, true), Helpers.toSQLString(classModel.description, true), Helpers.toSQLString(courseId)};
-                    if (Helpers.insertIntoDatabase("Classes", columnsName, values)) {
-                        Helpers.showMess("Thêm thành công!");
-                        Helpers.getClass(table);
+                    String[] values = {Services.toSQLString(classModel.name, true), Services.toSQLString(classModel.description, true), Services.toSQLString(courseId)};
+                    if (Services.insertIntoDatabase("Classes", columnsName, values)) {
+                        Services.showMess("Thêm thành công!");
+                        Services.getClass(table);
                         addClassForm.dispose();
                     }
 
                 }
             }
         });
-        Helpers.addActionListener(addClassForm.cancelButton, new ActionListener() {
+        Services.addActionListener(addClassForm.cancelButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addClassForm.dispose();

@@ -7,7 +7,7 @@ package GraduationProjectManagement.Controller.Main.UpdateForm;
 import GraduationProjectManagement.Controller.Main.AddForm.*;
 import GraduationProjectManagement.Controller.Main.MainController;
 import GraduationProjectManagement.Model.SchoolYearModel;
-import GraduationProjectManagement.Utils.Helpers;
+import GraduationProjectManagement.Services.Services;
 import GraduationProjectManagement.View.Main.AddForm.AddSchoolYearForm;
 import GraduationProjectManagement.View.Main.UpdateForm.UpdateSchoolYearForm;
 import java.awt.event.ActionEvent;
@@ -33,25 +33,25 @@ public final class UpdateSchoolYearController {
     }
 
     void updateFormButtonController() {
-        Helpers.addActionListener(updateSchoolYearForm.updateButton, new ActionListener() {
+        Services.addActionListener(updateSchoolYearForm.updateButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SchoolYearModel schoolYear = new SchoolYearModel(updateSchoolYearForm.schoolYearText.getText());
                 String[] columnsName = {"name"};
-                String[] values = {Helpers.toSQLString(schoolYear.name)};
+                String[] values = {Services.toSQLString(schoolYear.name)};
                 try {
-                    if (Helpers.updateData("SchoolYears", columnsName, values, "id="+Helpers.toSQLString(schoolYearModel.id))) {
-                        Helpers.showMess("Cập nhật thành công!");
-                        Helpers.getSchoolYears(table);
+                    if (Services.updateData("SchoolYears", columnsName, values, "id="+Services.toSQLString(schoolYearModel.id))) {
+                        Services.showMess("Cập nhật thành công!");
+                        Services.getSchoolYears(table);
                         updateSchoolYearForm.dispose();
                     }
 
                 } catch (Exception ex) {
-                    Helpers.showMess(ex.toString());
+                    Services.showMess(ex.toString());
                 }
             }
         });
-        Helpers.addActionListener(updateSchoolYearForm.cancelButton, new ActionListener() {
+        Services.addActionListener(updateSchoolYearForm.cancelButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateSchoolYearForm.dispose();

@@ -8,7 +8,7 @@ import GraduationProjectManagement.Controller.Main.MainController;
 import GraduationProjectManagement.Model.Auth.LoginModel;
 import GraduationProjectManagement.Model.Auth.RegisterModel;
 import GraduationProjectManagement.Model.Auth.User;
-import GraduationProjectManagement.Utils.Helpers;
+import GraduationProjectManagement.Services.Services;
 import GraduationProjectManagement.View.Auth.AuthView;
 import GraduationProjectManagement.View.Auth.LoginPanel;
 import GraduationProjectManagement.View.Auth.RegisterPanel;
@@ -47,21 +47,21 @@ public class AuthController {
     }
 
     private void loginViewActionListener() {
-        Helpers.addActionListener(loginPanel.loginButton, new ActionListener() {
+        Services.addActionListener(loginPanel.loginButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String userName = loginPanel.usernameText.getText();
                 String password = loginPanel.passwordText.getText();
                 LoginModel loginModel = new LoginModel(userName, password);
-                if(Helpers.login(loginModel.username, loginModel.password)){
-//                    Helpers.showMess("Đăng nhập thành công");
+                if(Services.login(loginModel.username, loginModel.password)){
+//                    Services.showMess("Đăng nhập thành công");
                     System.out.println(User.name);
                     MainController mainController = new MainController();
                     authView.dispose();
                 }
             }
         });
-        Helpers.addActionListener(loginPanel.registerLabel, new MouseListener() {
+        Services.addActionListener(loginPanel.registerLabel, new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 loginPanel.setVisible(false);
@@ -90,7 +90,7 @@ public class AuthController {
     }
 
     private void registerViewActionListener() {
-        Helpers.addActionListener(registerPanel.registerButton, new ActionListener() {
+        Services.addActionListener(registerPanel.registerButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = registerPanel.nameText.getText();
@@ -98,14 +98,14 @@ public class AuthController {
                 String username = registerPanel.usernameText.getText();
                 String password = registerPanel.passwordText.getText();
                 String confirmPassword = registerPanel.confirmPasswordText.getText();
-                if(Helpers.register(name, username, phonenumber, password, confirmPassword)){
+                if(Services.register(name, username, phonenumber, password, confirmPassword)){
                     registerPanel.setVisible(false);
                     authView.add(loginPanel, BorderLayout.CENTER);
                     loginPanel.setVisible(true);
                 }
             }
         });
-        Helpers.addActionListener(registerPanel.loginLabel, new MouseListener() {
+        Services.addActionListener(registerPanel.loginLabel, new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 registerPanel.setVisible(false);
